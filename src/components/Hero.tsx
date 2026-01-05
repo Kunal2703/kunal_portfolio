@@ -170,7 +170,7 @@ const Hero = () => {
               filter: 'blur(8px)'
             }} />
             <img
-              src="/profile.jpg"
+              src={`${import.meta.env.BASE_URL}profile.jpg`}
               alt="Kunal Singh"
               style={{
                 position: 'relative',
