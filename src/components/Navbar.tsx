@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Terminal, Github } from 'lucide-react';
+import { Menu, X, Github, Linkedin, Terminal } from 'lucide-react';
 
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -49,9 +49,31 @@ const Navbar = () => {
                             {link.name}
                         </a>
                     ))}
-                    <a href="https://github.com" target="_blank" rel="noopener noreferrer" style={{ marginLeft: '1rem' }}>
-                        <Github size={20} color="var(--text-secondary)" />
-                    </a>
+
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginLeft: '1rem', paddingLeft: '1rem', borderLeft: '1px solid rgba(255,255,255,0.1)' }}>
+                        <a
+                            href="https://www.linkedin.com/in/kunal27/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ color: 'var(--text-secondary)', display: 'flex', alignItems: 'center' }}
+                            onMouseEnter={(e) => e.currentTarget.style.color = '#0077b5'}
+                            onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
+                            aria-label="LinkedIn"
+                        >
+                            <Linkedin size={20} />
+                        </a>
+                        <a
+                            href="https://github.com/Kunal2703"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ color: 'var(--text-secondary)', display: 'flex', alignItems: 'center' }}
+                            onMouseEnter={(e) => e.currentTarget.style.color = 'white'}
+                            onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
+                            aria-label="GitHub"
+                        >
+                            <Github size={20} />
+                        </a>
+                    </div>
                 </div>
 
                 {/* Mobile Menu Button */}
@@ -93,6 +115,24 @@ const Navbar = () => {
                                 {link.name}
                             </a>
                         ))}
+                        <div style={{ display: 'flex', gap: '1.5rem', marginTop: '1rem' }}>
+                            <a
+                                href="https://www.linkedin.com/in/kunal27/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{ color: 'var(--text-secondary)' }}
+                            >
+                                <Linkedin size={24} />
+                            </a>
+                            <a
+                                href="https://github.com/Kunal2703"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{ color: 'var(--text-secondary)' }}
+                            >
+                                <Github size={24} />
+                            </a>
+                        </div>
                     </div>
                 )}
             </div>
