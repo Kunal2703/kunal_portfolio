@@ -20,8 +20,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 fontSize: '0.9rem'
             }}>
                 <div className="container">
-                    <p>© {new Date().getFullYear()} Alex Devops. All rights reserved.</p>
-                    <p style={{ marginTop: '0.5rem', fontSize: '0.8rem' }}>Built with React, TypeScript & Vanilla CSS</p>
+                    <p>© 2026 Kunal. All rights reserved.</p>
                 </div>
             </footer>
         </div>

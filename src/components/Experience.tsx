@@ -54,9 +54,27 @@ const Experience = () => {
                                 boxShadow: '0 0 0 1px var(--accent-primary)'
                             }} />
 
+                            <style>{`
+                                .experience-header {
+                                    display: flex;
+                                    align-items: center;
+                                    gap: 2rem;
+                                    color: var(--accent-secondary);
+                                    font-size: 0.95rem;
+                                    font-weight: 500;
+                                }
+                                @media (max-width: 600px) {
+                                    .experience-header {
+                                        flex-direction: column;
+                                        align-items: flex-start;
+                                        gap: 0.5rem;
+                                        margin-top: 0.25rem;
+                                    }
+                                }
+                            `}</style>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                                <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>{exp.role}</h3>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', color: 'var(--accent-secondary)', fontSize: '0.95rem', fontWeight: '500' }}>
+                                <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', lineHeight: '1.3' }}>{exp.role}</h3>
+                                <div className="experience-header">
                                     <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                                         <Briefcase size={16} /> {exp.company}
                                     </span>

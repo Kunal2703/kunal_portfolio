@@ -59,6 +59,43 @@ button {
   padding: 5rem 0;
 }
 
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+  }
+
+  .section {
+    padding: 3rem 0;
+  }
+
+  h1 {
+    font-size: 2rem !important;
+  }
+
+  h2 {
+    font-size: 1.75rem !important;
+  }
+
+  h3 {
+    font-size: 1.25rem !important;
+  }
+
+  p {
+    font-size: 0.95rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 0.75rem;
+  }
+
+  .section {
+    padding: 2.5rem 0;
+  }
+}
+
 .gradient-text {
   background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary));
   background-clip: text;

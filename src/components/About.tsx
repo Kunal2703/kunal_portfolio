@@ -14,7 +14,36 @@ const About = () => {
                 <h2 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '2rem' }}>About Me</h2>
                 <div style={{ width: '60px', height: '4px', backgroundColor: 'var(--accent-primary)', marginBottom: '3rem', borderRadius: '2px' }} />
 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '4rem', alignItems: 'center' }}>
+                <style>{`
+                    .about-grid {
+                        display: grid;
+                        grid-template-columns: 1fr 1fr; /* Default to 2 columns for text + stats */
+                        gap: 4rem;
+                        align-items: center;
+                    }
+                    .stats-grid {
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        gap: 1.5rem;
+                    }
+                    @media (max-width: 968px) {
+                        .about-grid {
+                            grid-template-columns: 1fr; /* Stack text and stats */
+                            gap: 2rem;
+                        }
+                        .stats-grid {
+                            grid-template-columns: 1fr 1fr; /* Keep 2 columns for stats on mobile */
+                            gap: 1rem;
+                        }
+                    }
+                     @media (max-width: 480px) {
+                        .stats-grid {
+                            gap: 0.75rem; /* Tighter gap on very small screens */
+                        }
+                     }
+                `}</style>
+
+                <div className="about-grid">
 
                     <div>
                         <p style={{ fontSize: '1.1rem', color: 'var(--text-secondary)', lineHeight: '1.8', marginBottom: '1.5rem' }}>
@@ -25,7 +54,7 @@ const About = () => {
                         </p>
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+                    <div className="stats-grid">
                         {customStats.map((stat) => (
                             <div key={stat.label} style={{
                                 backgroundColor: 'var(--bg-card)',
@@ -38,10 +67,10 @@ const About = () => {
                                 onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-5px)'}
                                 onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
                             >
-                                <div style={{ fontSize: '2rem', fontWeight: 'bold', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>
+                                <div style={{ fontSize: '1.75rem', fontWeight: 'bold', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>
                                     {stat.value}
                                 </div>
-                                <div style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', letterSpacing: '1px', textTransform: 'uppercase' }}>
+                                <div style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', letterSpacing: '1px', textTransform: 'uppercase' }}>
                                     {stat.label}
                                 </div>
                             </div>

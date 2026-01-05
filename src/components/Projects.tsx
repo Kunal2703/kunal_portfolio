@@ -25,7 +25,38 @@ const Projects = () => {
     return (
         <section id="projects" className="section" style={{ backgroundColor: '#0f0f0f' }}>
             <div className="container">
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'end', marginBottom: '3rem' }}>
+                <style>{`
+                    .projects-header {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: end;
+                        margin-bottom: 3rem;
+                    }
+                    .projects-grid {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+                        gap: 2rem;
+                    }
+                    @media (max-width: 768px) {
+                        .projects-header {
+                            flex-direction: column;
+                            align-items: flex-start;
+                            gap: 1rem;
+                            margin-bottom: 2rem;
+                        }
+                        .projects-grid {
+                            grid-template-columns: 1fr;
+                            gap: 1.5rem;
+                        }
+                    }
+                    @media (max-width: 480px) {
+                        .projects-grid {
+                            grid-template-columns: 1fr;
+                        }
+                    }
+                `}</style>
+
+                <div className="projects-header">
                     <div>
                         <h2 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '1rem' }}>Featured Projects</h2>
                         <div style={{ width: '60px', height: '4px', backgroundColor: 'var(--accent-primary)', borderRadius: '2px' }} />
@@ -36,7 +67,7 @@ const Projects = () => {
                     </a>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '2rem' }}>
+                <div className="projects-grid">
                     {projects.map((project, index) => (
                         <div key={index} className="project-card" style={{
                             backgroundColor: 'var(--bg-card)',
