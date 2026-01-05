@@ -1,101 +1,87 @@
-# ðŸš€ DevOps Engineer Portfolio - Kunal
+# DevOps Portfolio - Kunal
 
-A modern, high-performance portfolio website built for a DevOps Engineer & SRE. This project showcases reliability, automation, and cloud expertise with a terminal-themed UI and sleek animations.
+A professional, high-performance portfolio website designed for DevOps Engineers and Site Reliability Engineers (SREs). This project highlights expertise in cloud infrastructure, automation, and system reliability through a modern, terminal-themed interface.
 
-![Portfolio Preview](public/preview.png)
-*(Note: You can add a screenshot of your site to the public folder and name it preview.png)*
+![Preview](public/preview.png)
+*(Note: Place a screenshot of your website in the public folder and name it `preview.png` to display it here.)*
 
-## ðŸ› ï¸  Tech Stack
+## ✨ Key Features
 
-- **Frontend Framework**: [React](https://react.dev/)
-- **Build Tool**: [Vite](https://vitejs.dev/)
-- **Language**: [TypeScript](https://www.typescriptlang.org/)
-- **Styling**: Modern CSS3 (Variables, Flexbox, Grid, Animations)
-- **Icons**: [Lucide React](https://lucide.dev/)
-- **Deployment**: [GitHub Actions](https://github.com/features/actions) / [Vercel](https://vercel.com/) (Recommended)
+- **Terminal-Themed Hero Section**: A unique, developer-centric introduction with dynamic typing animations simulating CLI operations.
+- **Modern & Responsive Design**: Built with a mobile-first approach using CSS Grid, Flexbox, and Glassmorphism effects.
+- **Performance Optimized**: Powered by [Vite](https://vitejs.dev/) for instant server starts and lightning-fast HMR (Hot Module Replacement).
+- **Type-Safe Code**: Fully written in [TypeScript](https://www.typescriptlang.org/) for robust and maintainable code quality.
+- **Interactive Elements**: Smooth hover effects, gradient text, and seamless navigation.
 
----
+## 🛠️ Technology Stack
 
-## ðŸ’¾ How to Run on a New Laptop
+- **Frontend**: React 18
+- **Language**: TypeScript
+- **Build Tool**: Vite
+- **Styling**: Native CSS Variables (Dark Mode native)
+- **Icons**: Lucide React
 
-Follow these steps to set up and run the project on a different machine.
+## 🚀 Getting Started
 
-### 1. Prerequisites
+Follow these instructions to set up the project on your local machine for development and testing purposes.
 
-Make sure you have the following installed on your system:
-- **Node.js**: [Download here](https://nodejs.org/) (Version 18+ recommended)
-- **Git**: [Download here](https://git-scm.com/)
+### Prerequisites
 
-### 2. Clone or Copy the Project
+Ensure you have the following installed on your system:
+- **Node.js**: v18.0.0 or higher ([Download](https://nodejs.org/))
+- **npm**: v9.0.0 or higher (Usually bundled with Node.js)
+- **Git**: ([Download](https://git-scm.com/))
 
-If the project is on GitHub:
-```bash
-git clone <your-repository-url>
-cd kunal_portfolio
-```
+### Installation
 
-If you copied the folder manually, just open your terminal and `cd` into the folder:
-```bash
-cd path/to/kunal_portfolio
-```
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd kunal_portfolio
+   ```
 
-### 3. Install Dependencies
+2. **Install dependencies**
+   Run the following command to install all required packages:
+   ```bash
+   npm install
+   ```
 
-Run the following command to install all the necessary libraries:
-```bash
-npm install
-```
+3. **Start the development server**
+   ```bash
+   npm run dev
+   ```
+   Open [http://localhost:5173](http://localhost:5173) to view the application in your browser.
 
-### 4. Start the Development Server
+## 📦 Building for Production
 
-To run the website locally:
-```bash
-npm run dev
-```
-- The terminal will show a local URL (usually `http://localhost:5173/`).
-- Open that link in your browser to view the site.
-
----
-
-## ðŸš¢ Build for Production
-
-To optimize the application for deployment:
+To create a production-ready build:
 
 ```bash
 npm run build
 ```
 
-To preview the built version locally:
+The build artifacts will be generated in the `dist/` directory. You can preview the production build locally using:
+
 ```bash
 npm run preview
 ```
 
----
+## 🔧 Customization
 
-## ðŸ“‚ Project Structure
+You can easily update the content to match your profile:
 
-```
-kunal_portfolio/
-â”œâ”€â”€ public/              # Static assets (images, icons)
-â”œâ”€â”€ src/
-â”‚   â”œâ”€â”€ components/      # React components (Hero, About, Skills, etc.)
-â”‚   â”œâ”€â”€ App.tsx          # Main application component
-â”‚   â”œâ”€â”€ main.tsx         # Entry point
-â”‚   â””â”€â”€ index.css        # Global styles
-â”œâ”€â”€ package.json         # Project dependencies and scripts
-â”œâ”€â”€ tsconfig.json        # TypeScript configuration
-â””â”€â”€ vite.config.ts       # Vite configuration
-```
+- **Personal Info**: Update `src/components/Hero.tsx` and `About.tsx` to change the bio and headline.
+- **Experience**: Edit the `experiences` array in `src/components/Experience.tsx`.
+- **Projects**: Modify the `projects` array in `src/components/Projects.tsx`.
+- **Skills**: Adjust the `skillCategories` in `src/components/Skills.tsx`.
+- **Contact Details**: Update email and location in `src/components/Contact.tsx`.
 
-## ðŸ¤— Contributing
+## 📄 License
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
 **Author**: Kunal Singh
+**Role**: DevOps Engineer | SRE
 **Contact**: kunalsingh2703@gmail.com
