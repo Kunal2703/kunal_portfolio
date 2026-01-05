@@ -3,7 +3,7 @@
 A professional, high-performance portfolio website designed for DevOps Engineers and Site Reliability Engineers (SREs). This project highlights expertise in cloud infrastructure, automation, and system reliability through a modern, terminal-themed interface.
 
 ![Preview](public/preview.png)
-*(Note: Place a screenshot of your website in the public folder and name it `preview.png` to display it here.)*
+
 
 ## ✨ Key Features
 
