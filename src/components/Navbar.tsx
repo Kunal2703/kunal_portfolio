@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, Github, Linkedin, Terminal } from 'lucide-react';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+    const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -14,11 +18,43 @@ const Navbar = () => {
     }, []);
 
     const navLinks = [
-        { name: 'Home', href: '#home' },
-        { name: 'Projects', href: '#projects' },
-        { name: 'Experience', href: '#experience' },
-        { name: 'Contact', href: '#contact' },
+        { name: 'Home', href: '/', isHash: true },
+        { name: 'Projects', href: '/#projects', isHash: true },
+        { name: 'Experience', href: '/#experience', isHash: true },
+        { name: 'Blog', href: '/blog', isHash: false },
+        { name: 'Contact', href: '/#contact', isHash: true },
     ];
+
+    const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, link: { href: string; isHash: boolean }) => {
+        if (!link.isHash) {
+            setIsMobileMenuOpen(false);
+            return;
+        }
+
+        e.preventDefault();
+        const [path, hash] = link.href.split('#');
+
+        if (location.pathname !== path) {
+            navigate(link.href);
+            setIsMobileMenuOpen(false);
+            return;
+        }
+
+        const targetId = hash || 'home';
+        const element = targetId === 'home' ? document.getElementById('home') : document.getElementById(targetId);
+
+        if (element) {
+            const navbarHeight = 80;
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+        }
+        setIsMobileMenuOpen(false);
+    };
 
     return (
         <nav
@@ -39,15 +75,16 @@ const Navbar = () => {
                 {/* Desktop Nav */}
                 <div className="desktop-nav" style={{ display: 'none', gap: '2rem', alignItems: 'center' }}>
                     {navLinks.map((link) => (
-                        <a
+                        <Link
                             key={link.name}
-                            href={link.href}
-                            style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', fontWeight: '500' }}
+                            to={link.href}
+                            onClick={(e: any) => handleNavClick(e, link)}
+                            style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', fontWeight: '500', cursor: 'pointer' }}
                             onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-primary)'}
                             onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
                         >
                             {link.name}
-                        </a>
+                        </Link>
                     ))}
 
                     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginLeft: '1rem', paddingLeft: '1rem', borderLeft: '1px solid rgba(255,255,255,0.1)' }}>
@@ -106,14 +143,14 @@ const Navbar = () => {
                         }}
                     >
                         {navLinks.map((link) => (
-                            <a
+                            <Link
                                 key={link.name}
-                                href={link.href}
-                                onClick={() => setIsMobileMenuOpen(false)}
-                                style={{ color: 'var(--text-primary)', fontSize: '1.1rem', fontWeight: '500' }}
+                                to={link.href}
+                                onClick={(e: any) => handleNavClick(e, link)}
+                                style={{ color: 'var(--text-primary)', fontSize: '1.1rem', fontWeight: '500', cursor: 'pointer' }}
                             >
                                 {link.name}
-                            </a>
+                            </Link>
                         ))}
                         <div style={{ display: 'flex', gap: '1.5rem', marginTop: '1rem' }}>
                             <a

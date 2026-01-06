@@ -3,22 +3,39 @@ import { Briefcase, Calendar } from 'lucide-react';
 const Experience = () => {
     const experiences = [
         {
-            role: 'DevOps Engineer I',
+            role: 'DevOps Engineer',
             company: 'Careers360',
             period: 'Sep 2024 - Present',
-            description: 'Managed end-to-end release/deployment with zero disruptions. Achieved significant FinOps cost reductions (25-65%). Architected Devtron CI/CD platform and upgraded EKS clusters from 1.24 to 1.31.'
+            points: [
+                'Managed end-to-end release and deployment processes across staging, beta, and production environments, ensuring smooth application rollouts with zero disruptions.',
+                'Achieved significant FinOps cost reductions across multiple AWS accounts - 25% cost reduction in primary productionccount and 65% cost reduction in secondary staging account through strategic resource management and optimization.',
+                'Architected and implemented Devtron CI/CD platform from scratch for build and deployment across staging, beta, and production environments, while managing entire EKS cluster operations through Devtron interface.',
+                'Successfully upgraded Amazon EKS clusters from version 1.24 to 1.28, then 1.28 to 1.30 and finally to 1.31 across staging, beta, and production environments with zero downtime.',
+                'Migrated 30% of legacy applications from traditional servers to Amazon EKS, improving scalability, fault tolerance, and resource optimization.',
+                'Led migration from AWS CloudFront to Akamai CDN, enhancing performance and reducing latency by 30% for global content delivery.',
+                'Consolidated 2 existing load balancers into a single ALB, streamlining traffic management and reducing infrastructure complexity by 40%.',
+                'Improved CDN performance by separating subdomains into individual CloudFront distributions, optimizing content delivery and enhancing security.',
+                'Replaced the use of env-based access and secret keys with an RBAC role-based approach, improving security and compliance across all environments (staging, beta, and production).'
+            ]
         },
         {
             role: 'DevOps Engineer Internship',
             company: 'Careers360',
             period: 'March 2024 - August 2024',
-            description: 'Utilized AWS services (EC2, RDS, CloudFront) to optimize infra. Employed Devtron for streamlined builds. Migrated CloudWatch metrics to Grafana reducing monthly costs by 70%.'
+            points: [
+                'Utilized a comprehensive suite of AWS services (EC2, RDS, CloudWatch, Route53, CloudFront, VPC, etc.) to manage and optimize cloud infrastructure.',
+                'Employed Devtron for streamlined build and deployment processes and automated tasks and workflows using Jenkins cron jobs, enhancing operational efficiency.',
+                'Migrated CloudWatch metrics and logs to Grafana, reducing monthly 70 percent cost.'
+            ]
         },
         {
             role: 'Summer Intern',
             company: 'Visvesvaraya National Institute of Technology',
             period: 'June 2023 - July 2023',
-            description: 'Implemented smart irrigation system using sensor data and Machine Learning algorithms to optimize plant watering decisions.'
+            points: [
+                'Implemented smart irrigation system optimizing plant watering decisions using sensor data and Machine Learning algorithms, enhancing overall system performance through data-driven automation.',
+                'Improved water usage efficiency and automated agricultural practices while managing and analyzing 18 million data points for fine-tune irrigation strategies.'
+            ]
         }
     ];
 
@@ -82,9 +99,11 @@ const Experience = () => {
                                         <Calendar size={16} /> {exp.period}
                                     </span>
                                 </div>
-                                <p style={{ marginTop: '0.75rem', color: 'var(--text-secondary)', lineHeight: '1.6' }}>
-                                    {exp.description}
-                                </p>
+                                <ul style={{ marginTop: '0.75rem', color: 'var(--text-secondary)', lineHeight: '1.8', paddingLeft: '1.25rem', listStyleType: 'disc' }}>
+                                    {exp.points.map((point, idx) => (
+                                        <li key={idx} style={{ marginBottom: '0.5rem' }}>{point}</li>
+                                    ))}
+                                </ul>
                             </div>
                         </div>
                     ))}

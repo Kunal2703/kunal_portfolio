@@ -124,10 +124,6 @@ const Hero = () => {
               margin-top: 2rem;
               font-size: 0.8rem !important;
             }
-            .terminal-window > div:last-child {
-              padding: 1rem !important;
-              min-height: 200px !important;
-            }
           }
           @media (max-width: 480px) {
             .hero-profile-image {
@@ -220,7 +216,7 @@ const Hero = () => {
             <a href="#projects" className="btn btn-primary">
               View Work <ArrowRight size={18} />
             </a>
-            <a href="/resume.pdf" className="btn btn-outline" target="_blank" rel="noopener noreferrer">
+            <a href="https://drive.google.com/file/d/1XF_8iUQdNo0rvsFDqktNYxyoDC28bVNH/view?usp=drive_link" className="btn btn-outline" target="_blank" rel="noopener noreferrer">
               Download CV <Download size={18} />
             </a>
           </div>
@@ -241,7 +237,9 @@ const Hero = () => {
           marginTop: '16rem',
           display: 'flex',
           flexDirection: 'column',
-          height: '460px'
+          height: '460px',
+          minHeight: '460px',
+          maxHeight: '460px'
         }}>
           {/* Terminal Header */}
           <div style={{
@@ -260,7 +258,7 @@ const Hero = () => {
           </div>
 
           {/* Terminal Content */}
-          <div style={{ padding: '1.5rem', color: '#d4d4d4', fontSize: '1.05rem', lineHeight: '1.6', flex: 1, overflowY: 'hidden' }}>
+          <div style={{ padding: '1.5rem', color: '#d4d4d4', fontSize: '1.05rem', lineHeight: '1.6', height: '340px', minHeight: '340px', maxHeight: '340px', overflow: 'hidden' }}>
 
             {(terminalStep <= 1) && (
               <>

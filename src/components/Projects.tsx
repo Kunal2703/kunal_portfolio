@@ -4,21 +4,27 @@ const Projects = () => {
     const projects = [
         {
             title: 'QuillPost: Microservice Blog App',
-            description: 'Scalable microservices architecture with Django (Auth), Spring Boot (Posting), and React. Containerized with Docker and orchestrated via Kubernetes.',
+            description: 'QuillPost is a microservices-based blog posting application composed of independent services for authentication, comments, posts, and frontend. It uses Django for authentication and comments, Spring Boot for post management, and React.js for the user interface, and can be deployed using Docker Compose or Kubernetes with provided configuration files.',
             tags: ['Kubernetes', 'Docker', 'Django', 'Spring Boot', 'React'],
-            link: '#'
+            link: 'https://github.com/Kunal2703/QuillPost.git'
         },
         {
             title: 'Cloud Provider Advisor',
-            description: 'Multi-cloud VM comparison platform using SDKs to aggregate virtual machine data. UI for filtering and comparing VMs by memory, storage, and pricing.',
-            tags: ['AWS', 'GCP', 'Azure', 'Python', 'SDKs'],
-            link: '#'
+            description: 'Cloud-Provider-Advisor is an application that helps users choose the most cost-effective cloud service provider by comparing compute offerings from AWS, Microsoft Azure, and Google Cloud Platform. It collects user requirements such as vCPUs, memory, storage, OS, and region, retrieves VM data via provider APIs, and presents suitable options through a user-friendly interface, making cloud selection simpler and more economical for small and medium enterprises.',
+            tags: ['AWS', 'GCP', 'Azure', 'Python', 'React', 'SDKs'],
+            link: 'https://github.com/Kunal2703/Cloud-Provider-Advisor.git'
         },
         {
             title: 'Parking Spot Assigner (ML/CV)',
-            description: 'Computer vision system using YOLOv7 and Tesseract OCR for automated license plate recognition and intelligent parking allocation.',
+            description: 'The Parking Spot Assigner with License Plate Detector automates vehicle identification and parking slot allocation using machine learning and OCR. It scans license plates, identifies employees, and assigns the nearest available parking slot, reducing waiting time, manual effort, and congestion at the campus entry gate.',
             tags: ['YOLOv7', 'OpenCV', 'OCR', 'Python', 'ML'],
-            link: '#'
+            link: 'https://github.com/Kunal2703/Parking-Spot-Assigner-with-License-Plate-Detector.git'
+        },
+        {
+            title: 'Build-our-own-Compiler (Custom Compiler)',
+            description: 'A compiler translates source code from one language to another without changing its meaning while generating efficient target code. The compilation process works in multiple stages, where each stage analyzes the code, performs lexical, syntax, and grammar checks, and produces intermediate (assembly-like) code before final output.',
+            tags: ['Python', 'C++'],
+            link: 'https://github.com/Kunal2703/Build-our-own-Compiler.git'
         }
     ];
 
@@ -34,7 +40,7 @@ const Projects = () => {
                     }
                     .projects-grid {
                         display: grid;
-                        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+                        grid-template-columns: repeat(2, 1fr);
                         gap: 2rem;
                     }
                     @media (max-width: 768px) {
@@ -61,10 +67,6 @@ const Projects = () => {
                         <h2 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '1rem' }}>Featured Projects</h2>
                         <div style={{ width: '60px', height: '4px', backgroundColor: 'var(--accent-primary)', borderRadius: '2px' }} />
                     </div>
-                    <a href="https://github.com" target="_blank" rel="noopener noreferrer"
-                        style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--accent-primary)', fontWeight: '500' }}>
-                        View All <ArrowRight size={18} />
-                    </a>
                 </div>
 
                 <div className="projects-grid">
