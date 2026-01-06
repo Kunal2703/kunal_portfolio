@@ -1,4 +1,5 @@
 import { Briefcase, Calendar } from 'lucide-react';
+import HighlightText from './HighlightText';
 
 const Experience = () => {
     const experiences = [
@@ -8,7 +9,7 @@ const Experience = () => {
             period: 'Sep 2024 - Present',
             points: [
                 'Managed end-to-end release and deployment processes across staging, beta, and production environments, ensuring smooth application rollouts with zero disruptions.',
-                'Achieved significant FinOps cost reductions across multiple AWS accounts - 25% cost reduction in primary productionccount and 65% cost reduction in secondary staging account through strategic resource management and optimization.',
+                'Achieved significant FinOps cost reductions across multiple AWS accounts - 25% cost reduction in primary production account and 65% cost reduction in secondary staging account through strategic resource management and optimization.',
                 'Architected and implemented Devtron CI/CD platform from scratch for build and deployment across staging, beta, and production environments, while managing entire EKS cluster operations through Devtron interface.',
                 'Successfully upgraded Amazon EKS clusters from version 1.24 to 1.28, then 1.28 to 1.30 and finally to 1.31 across staging, beta, and production environments with zero downtime.',
                 'Migrated 30% of legacy applications from traditional servers to Amazon EKS, improving scalability, fault tolerance, and resource optimization.',
@@ -101,7 +102,9 @@ const Experience = () => {
                                 </div>
                                 <ul style={{ marginTop: '0.75rem', color: 'var(--text-secondary)', lineHeight: '1.8', paddingLeft: '1.25rem', listStyleType: 'disc' }}>
                                     {exp.points.map((point, idx) => (
-                                        <li key={idx} style={{ marginBottom: '0.5rem' }}>{point}</li>
+                                        <li key={idx} style={{ marginBottom: '0.5rem' }}>
+                                            <HighlightText text={point} />
+                                        </li>
                                     ))}
                                 </ul>
                             </div>

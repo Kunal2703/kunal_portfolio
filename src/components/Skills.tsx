@@ -69,7 +69,7 @@ const Skills = () => {
     return (
         <section id="skills" className="section" style={{ backgroundColor: 'var(--bg-primary)' }}>
             <div className="container">
-                <h2 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '1rem' }}>Technical Arsenal</h2>
+                <h2 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '1rem' }}>Technical Skills</h2>
                 <div style={{ width: '60px', height: '4px', backgroundColor: 'var(--accent-primary)', marginBottom: '3rem', borderRadius: '2px' }} />
                 <p style={{ fontSize: '1.1rem', color: 'var(--text-secondary)', marginBottom: '3rem', maxWidth: '700px' }}>
                     Tools and technologies I work with

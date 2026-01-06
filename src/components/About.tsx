@@ -2,10 +2,10 @@ import { Server, Activity, Container, Shield } from 'lucide-react';
 
 const About = () => {
     const customStats = [
-        { label: 'Uptime', value: 'Zero Disruptions', icon: Shield },
-        { label: 'Cost Reduction', value: '65%', icon: Activity },
-        { label: 'EKS Upgrade', value: '1.24 -> 1.31', icon: Server },
-        { label: 'CGPA', value: '8.56', icon: Container },
+        { label: 'Uptime', value: 'Zero Downtime', icon: Shield },
+        { label: 'Cloud Costs', value: 'Reduced by 25%', icon: Activity },
+        { label: 'EKS Upgrade', value: '1.24 ➜ 1.32', icon: Server },
+        { label: 'Devtron From Scratch', value: '150+ Apps', icon: Container },
     ];
 
     return (
@@ -47,10 +47,13 @@ const About = () => {
 
                     <div>
                         <p style={{ fontSize: '1.1rem', color: 'var(--text-secondary)', lineHeight: '1.8', marginBottom: '1.5rem' }}>
-                            I am a DevOps Engineer at <strong>Careers360</strong> and a Computer Science graduate from <strong>University of Petroleum and Energy Studies (UPES)</strong>. My expertise lies in architecting resilient cloud infrastructure, optimizing FinOps, and ensuring seamless deployment cycles.
+                            I am a <strong>DevOps & SRE Engineer</strong> with <strong>2 years of experience</strong> in architecting resilient cloud infrastructure, prioritizing <strong>FinOps</strong> and security. Currently at <strong>Careers360</strong>, I bridge the gap between development and operations to deliver scalable solutions.
+                        </p>
+                        <p style={{ fontSize: '1.1rem', color: 'var(--text-secondary)', lineHeight: '1.8', marginBottom: '1.5rem' }}>
+                            My work involves managing complex <strong>Kubernetes (EKS)</strong> clusters and automating workflows. I successfully architected a <strong>Devtron CI/CD</strong> platform from scratch for <strong>150+ applications</strong> and led a major migration from AWS CloudFront to <strong>Akamai CDN</strong>, significantly boosting global performance.
                         </p>
                         <p style={{ fontSize: '1.1rem', color: 'var(--text-secondary)', lineHeight: '1.8' }}>
-                            From migrating legacy applications to Amazon EKS to slashing infrastructure costs by up to 65%, I focus on delivering tangible business value through engineering excellence. I thrive on solving complex reliability challenges and automating the mundane.
+                            I thrive on solving reliability challenges. Whether it's consolidating load balancers to reduce complexity by <strong>40%</strong> or implementing strict <strong>RBAC</strong> policies for better security, I focus on building systems that are robust, secure, and cost-efficient.
                         </p>
                     </div>
 
