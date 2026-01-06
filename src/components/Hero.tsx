@@ -87,7 +87,11 @@ const Hero = () => {
             position: relative;
             width: 200px;
             height: 200px;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+          }
+          .terminal-window {
+            margin-top: 16rem;
           }
           @media (max-width: 968px) {
             #home .container { 
@@ -102,14 +106,14 @@ const Hero = () => {
             .hero-profile-image {
               width: 140px;
               height: 140px;
-              margin-bottom: 0.5rem;
+              margin-bottom: 1rem;
             }
             .hero-content h1 {
-              font-size: 2rem !important;
+              font-size: 2.25rem !important;
               line-height: 1.2 !important;
             }
             .hero-content p {
-              font-size: 0.95rem !important;
+              font-size: 1rem !important;
               max-width: 100% !important;
             }
             .hero-buttons { 
@@ -121,8 +125,8 @@ const Hero = () => {
               justify-content: center;
             }
             .terminal-window { 
-              margin-top: 2rem;
-              font-size: 0.8rem !important;
+              margin-top: 3rem;
+              font-size: 0.85rem !important;
             }
           }
           @media (max-width: 480px) {
@@ -131,13 +135,16 @@ const Hero = () => {
               height: 120px;
             }
             .hero-content h1 {
-              font-size: 1.75rem !important;
+              font-size: 1.85rem !important;
             }
             .hero-buttons {
               flex-direction: column;
             }
             .hero-buttons a {
               width: 100%;
+            }
+            .terminal-window {
+              margin-top: 2rem;
             }
           }
           .typing-cursor::after {
@@ -151,22 +158,28 @@ const Hero = () => {
 
         <div className="hero-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '1.5rem' }}>
           {/* Profile Image */}
-          <div className="hero-profile-image" style={{
-            position: 'relative',
-            width: '200px',
-            height: '200px',
-            marginBottom: '1.5rem'
-          }}>
+          <div className="hero-profile-image"
+            onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+            onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+          >
+            {/* Multi-layered Glow */}
             <div style={{
               position: 'absolute',
-              inset: '-4px',
+              inset: '-8px',
+              background: 'radial-gradient(circle, rgba(99, 102, 241, 0.4) 0%, rgba(99, 102, 241, 0) 70%)',
+              borderRadius: '50%',
+              zIndex: 0
+            }} />
+            <div style={{
+              position: 'absolute',
+              inset: '-2px',
               background: 'linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))',
               borderRadius: '50%',
-              opacity: 0.6,
-              filter: 'blur(8px)'
+              opacity: 0.8,
+              zIndex: 1
             }} />
             <img
-              src={`${import.meta.env.BASE_URL}profile.jpg`}
+              src={`${import.meta.env.BASE_URL}profile.png`}
               alt="Kunal Singh"
               style={{
                 position: 'relative',
@@ -174,9 +187,10 @@ const Hero = () => {
                 height: '100%',
                 borderRadius: '50%',
                 objectFit: 'cover',
-                objectPosition: 'center 20%',
-                border: '4px solid var(--bg-primary)',
-                boxShadow: '0 10px 40px rgba(0, 0, 0, 0.3)'
+                objectPosition: 'center 15%',
+                border: '4px solid #0a0a0a',
+                boxShadow: '0 15px 50px rgba(0, 0, 0, 0.6)',
+                zIndex: 2
               }}
             />
           </div>
@@ -234,7 +248,6 @@ const Hero = () => {
           maxWidth: '750px',
           width: '100%',
           alignSelf: 'start',
-          marginTop: '16rem',
           display: 'flex',
           flexDirection: 'column',
           height: '460px',
