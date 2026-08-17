@@ -19,8 +19,8 @@ const Navbar = () => {
 
     const navLinks = [
         { name: 'Home', href: '/', isHash: true },
-        { name: 'Projects', href: '/#projects', isHash: true },
         { name: 'Experience', href: '/#experience', isHash: true },
+        { name: 'Projects', href: '/#projects', isHash: true },
         { name: 'Blog', href: '/blog', isHash: false },
         { name: 'Contact', href: '/#contact', isHash: true },
     ];

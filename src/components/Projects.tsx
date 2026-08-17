@@ -76,9 +76,9 @@ function ProjectRow({ project, index }: { project: (typeof projects)[number]; in
 
 const Projects = () => {
   return (
-    <section id="projects" className="section" style={{ backgroundColor: '#0f0f0f' }}>
+    <section id="projects" className="section" style={{ backgroundColor: 'var(--bg-primary)' }}>
       <div className="container">
-        <Eyebrow index="02">Selected work</Eyebrow>
+        <Eyebrow index="03">Selected work</Eyebrow>
 
         <div
           style={{

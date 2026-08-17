@@ -10,9 +10,9 @@ const Experience = () => {
   const [open, setOpen] = useState(0)
 
   return (
-    <section id="experience" className="section" style={{ backgroundColor: 'var(--bg-primary)' }}>
+    <section id="experience" className="section" style={{ backgroundColor: '#0f0f0f' }}>
       <div className="container">
-        <Eyebrow index="03">Experience</Eyebrow>
+        <Eyebrow index="02">Experience</Eyebrow>
 
         <div
           style={{
