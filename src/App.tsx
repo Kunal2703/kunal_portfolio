@@ -7,6 +7,7 @@ import Projects from './components/Projects';
 import Experience from './components/Experience';
 import Contact from './components/Contact';
 import Blog from './components/Blog';
+import BlogPost from './components/BlogPost';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           </>
         } />
         <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:slug" element={<BlogPost />} />
       </Routes>
     </Layout>
   );

@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { localPosts } from '../lib/posts';
 import { ArrowRight, Calendar, Clock } from 'lucide-react';
 
 interface BlogPost {
@@ -7,11 +9,22 @@ interface BlogPost {
     slug: string;
     coverImage: string;
     publishedAt: string;
+    readTime: number;
 }
 
+/** Articles hosted in this repo, always shown first and never network-dependent. */
+const LOCAL: BlogPost[] = localPosts.map((p) => ({
+    title: p.title,
+    brief: p.brief,
+    slug: p.slug,
+    coverImage: p.coverImage,
+    publishedAt: p.publishedAt,
+    readTime: p.readTime,
+}));
+
 const Blog = () => {
-    const [posts, setPosts] = useState<BlogPost[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [posts, setPosts] = useState<BlogPost[]>(LOCAL);
+    const [loading, setLoading] = useState(LOCAL.length === 0);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
@@ -23,12 +36,13 @@ const Blog = () => {
             const query = `
                 query GetUserArticles {
                     publication(host: "kunaltheengineer.hashnode.dev") {
-                        posts(first: 6) {
+                        posts(first: 20) {
                             edges {
                                 node {
                                     title
                                     brief
                                     slug
+                                    readTimeInMinutes
                                     coverImage {
                                         url
                                     }
@@ -63,13 +77,18 @@ const Blog = () => {
                     brief: edge.node.brief,
                     slug: edge.node.slug,
                     coverImage: edge.node.coverImage?.url || 'https://placehold.co/600x400/1f1f1f/a3a3a3?text=No+Image',
-                    publishedAt: edge.node.publishedAt
+                    publishedAt: edge.node.publishedAt,
+                    readTime: edge.node.readTimeInMinutes ?? 5
                 }));
 
-                setPosts(fetchedPosts);
+                // Locally hosted articles win; Hashnode fills in the rest.
+                const localSlugs = new Set(LOCAL.map((p) => p.slug));
+                const remote = fetchedPosts.filter((p: BlogPost) => !localSlugs.has(p.slug));
+                setPosts([...LOCAL, ...remote]);
             } catch (error: any) {
                 console.error("Error fetching blogs:", error);
-                setError(error.message);
+                // Only surface an error if there is nothing at all to show.
+                if (LOCAL.length === 0) setError(error.message);
             } finally {
                 setLoading(false);
             }
@@ -105,11 +124,9 @@ const Blog = () => {
                         gap: '2.5rem'
                     }}>
                         {posts.map((post, index) => (
-                            <a
+                            <Link
                                 key={index}
-                                href={`https://kunaltheengineer.hashnode.dev/${post.slug}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
+                                to={`/blog/${post.slug}`}
                                 className="blog-card"
                                 style={{
                                     backgroundColor: 'var(--bg-card)',
@@ -144,7 +161,7 @@ const Blog = () => {
                                             <Calendar size={14} /> {new Date(post.publishedAt).toLocaleDateString()}
                                         </span>
                                         <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                                            <Clock size={14} /> 5 min read
+                                            <Clock size={14} /> {post.readTime} min read
                                         </span>
                                     </div>
                                     <h3 style={{ fontSize: '1.35rem', fontWeight: 'bold', marginBottom: '1rem', lineHeight: '1.4' }}>
@@ -157,7 +174,7 @@ const Blog = () => {
                                         Read Article <ArrowRight size={16} />
                                     </div>
                                 </div>
-                            </a>
+                            </Link>
                         ))}
                     </div>
                 )}

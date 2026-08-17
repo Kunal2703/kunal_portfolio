@@ -1,3 +1,30 @@
+/* Tailwind utilities only — used by the Projects / Skills / Experience sections.
+   Preflight is deliberately NOT imported so the original hand-written CSS below
+   stays the single source of base styling.
+
+   Utilities are imported UNLAYERED on purpose: the original `* { margin: 0;
+   padding: 0 }` reset below is itself unlayered, and unlayered CSS always beats
+   layered CSS regardless of specificity — inside a layer, every Tailwind
+   margin/padding utility silently loses to that reset. */
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css";
+
+@theme {
+  --color-ink: #0a0a0a;
+  --color-card: #1f1f1f;
+  --color-card2: #262626;
+  --color-line: rgba(255, 255, 255, 0.07);
+  --color-line2: rgba(255, 255, 255, 0.16);
+  --color-txt: #ffffff;
+  --color-muted: #a3a3a3;
+  --color-faint: #6b6b6b;
+  --color-accent: #6366f1;
+  --color-accent2: #a855f7;
+
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+
 :root {
   --bg-primary: #0a0a0a;
   --bg-secondary: #171717;
@@ -46,6 +73,9 @@ button {
   border: none;
   background: none;
   font-family: inherit;
+  /* Without this, the UA default `color: buttontext` (black) wins, because
+     Tailwind's preflight — which normally sets `color: inherit` — is not imported. */
+  color: inherit;
 }
 
 /* Utilities */
@@ -181,5 +211,202 @@ button {
 @keyframes blink {
   50% {
     opacity: 0;
+  }
+}
+/* ── Added for the redesigned Projects / Skills / Experience sections ── */
+
+.gradient-text-2 {
+  background: linear-gradient(96deg, var(--accent-primary), var(--accent-secondary));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.section-heading {
+  font-size: clamp(2.25rem, 6vw, 4.25rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 0.95;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.eyebrow .eyebrow-rule {
+  width: 2.5rem;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.16);
+}
+
+/* ── Article body (Hashnode HTML) ───────────────────────────────────── */
+
+.prose {
+  color: var(--text-secondary);
+  font-size: 1.0625rem;
+  line-height: 1.85;
+}
+
+.prose > * + * {
+  margin-top: 1.5rem;
+}
+
+.prose h2,
+.prose h3,
+.prose h4 {
+  color: var(--text-primary);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+  scroll-margin-top: 6rem;
+}
+
+.prose h2 {
+  font-size: 1.9rem;
+}
+.prose h3 {
+  font-size: 1.45rem;
+}
+.prose h4 {
+  font-size: 1.2rem;
+}
+
+.prose strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.prose a {
+  color: var(--accent-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+.prose a:hover {
+  color: var(--accent-secondary);
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.4rem;
+}
+
+.prose ul {
+  list-style: disc;
+}
+.prose ol {
+  list-style: decimal;
+}
+
+.prose li {
+  margin-top: 0.6rem;
+}
+
+.prose li::marker {
+  color: var(--accent-primary);
+}
+
+.prose blockquote {
+  border-left: 3px solid var(--accent-primary);
+  padding: 0.25rem 0 0.25rem 1.25rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.prose img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  margin: 2.25rem 0;
+}
+
+.prose figcaption {
+  margin-top: 0.75rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+/* Inline code */
+.prose :not(pre) > code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  color: #e0d5ff;
+  background-color: rgba(99, 102, 241, 0.13);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: var(--radius-sm);
+  padding: 0.15em 0.4em;
+  overflow-wrap: break-word;
+}
+
+/* Code blocks */
+.prose pre {
+  background-color: #121218;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.4rem;
+  overflow-x: auto;
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+.prose pre code {
+  font-family: var(--font-mono);
+  color: #d7dae0;
+  background: none;
+  border: none;
+  padding: 0;
+  white-space: pre;
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin: 3rem 0;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  display: block;
+  overflow-x: auto;
+}
+
+.prose th,
+.prose td {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.65rem 0.9rem;
+  text-align: left;
+}
+
+.prose th {
+  color: var(--text-primary);
+  background-color: rgba(255, 255, 255, 0.03);
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .prose {
+    font-size: 1rem;
+  }
+  .prose h2 {
+    font-size: 1.55rem;
+  }
+  .prose h3 {
+    font-size: 1.25rem;
   }
 }

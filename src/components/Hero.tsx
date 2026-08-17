@@ -7,7 +7,7 @@ const Hero = () => {
   const [showOutput, setShowOutput] = useState(false);
 
   // Sequence Constants
-  const bioText = "Hi, I'm Kunal. DevOps & SRE Engineer with 2 years of experience. | Specialized in AWS, Kubernetes (EKS), and FinOps. | Reduced cloud costs by 65% and architected zero-downtime deployments @Careers360.";
+  const bioText = "Hi, I'm Kunal. DevOps & SRE Engineer with 2.5+ years of experience. | Specialized in AWS, GCP, Kubernetes (EKS/GKE), Terraform, and FinOps. | Currently building a multi-tenant AI-native platform end-to-end @UrumiAI.";
   const finalText = "Open to collaborating on scalable solutions, DevOps automation, and impactful engineering problems.";
 
   useEffect(() => {
@@ -223,7 +223,7 @@ const Hero = () => {
           </h1>
 
           <p style={{ fontSize: '1.1rem', color: 'var(--text-secondary)', maxWidth: '540px', lineHeight: '1.6' }}>
-            DevOps Engineer & SRE with <strong>2 years of experience</strong>. Specializing in FinOps, Kubernetes Orchestration, and Automated Chaos. I architect systems for zero downtime and maximum efficiency.
+            DevOps Engineer & SRE with <strong>2.5+ years of experience</strong> across <strong>AWS &amp; GCP</strong>. Specializing in Terraform IaC, multi-tenant Kubernetes, observability, and FinOps. I architect systems for zero downtime and maximum efficiency.
           </p>
 
           <div className="hero-buttons" style={{ display: 'flex', gap: '1rem', marginTop: '1rem', flexWrap: 'wrap' }}>

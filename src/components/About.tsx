@@ -3,8 +3,10 @@ import { Server, Activity, Container, Shield } from 'lucide-react';
 const About = () => {
     const customStats = [
         { label: 'Uptime', value: 'Zero Downtime', icon: Shield },
-        { label: 'Cloud Costs', value: 'Reduced by 25%', icon: Activity },
-        { label: 'EKS Upgrade', value: '1.24 ➜ 1.32', icon: Server },
+        { label: 'AWS Cost Cut — Prod / Staging', value: '25% / 65%', icon: Activity },
+        { label: 'Peak Traffic Handled', value: '5 Lakh+ Reqs', icon: Server },
+        { label: 'Platform Built on AWS', value: 'POC ➜ Prod', icon: Container },
+        { label: 'EKS Upgrade', value: '1.24 ➜ 1.33', icon: Server },
         { label: 'Devtron From Scratch', value: '150+ Apps', icon: Container },
     ];
 
@@ -47,13 +49,13 @@ const About = () => {
 
                     <div>
                         <p style={{ fontSize: '1.1rem', color: 'var(--text-secondary)', lineHeight: '1.8', marginBottom: '1.5rem' }}>
-                            I am a <strong>DevOps & SRE Engineer</strong> with <strong>2 years of experience</strong> in architecting resilient cloud infrastructure, prioritizing <strong>FinOps</strong> and security. Currently at <strong>Careers360</strong>, I bridge the gap between development and operations to deliver scalable solutions.
+                            I am a <strong>DevOps &amp; SRE Engineer</strong> with <strong>2.5+ years of experience</strong> architecting resilient cloud infrastructure across <strong>AWS and GCP</strong>, prioritizing <strong>FinOps</strong> and security. Currently at <strong>Urumi (UrumiAI)</strong>, I bridge the gap between development and operations to deliver scalable solutions.
                         </p>
                         <p style={{ fontSize: '1.1rem', color: 'var(--text-secondary)', lineHeight: '1.8', marginBottom: '1.5rem' }}>
-                            My work involves managing complex <strong>Kubernetes (EKS)</strong> clusters and automating workflows. I successfully architected a <strong>Devtron CI/CD</strong> platform from scratch for <strong>150+ applications</strong> and led a major migration from AWS CloudFront to <strong>Akamai CDN</strong>, significantly boosting global performance.
+                            At Urumi I built an AI-native e-commerce platform end-to-end — from POC to production — provisioning <strong>8+ AWS services</strong> as <strong>Terraform IaC</strong> with a <strong>multi-tenant Helm provisioner</strong>, alongside a <strong>dual-cloud (AWS ➜ GCP)</strong> integration and a full observability stack on <strong>GKE</strong>.
                         </p>
                         <p style={{ fontSize: '1.1rem', color: 'var(--text-secondary)', lineHeight: '1.8' }}>
-                            I thrive on solving reliability challenges. Whether it's consolidating load balancers to reduce complexity by <strong>40%</strong> or implementing strict <strong>RBAC</strong> policies for better security, I focus on building systems that are robust, secure, and cost-efficient.
+                            Previously at <strong>Careers360</strong>, I scaled infrastructure through the highest traffic surge in the company's history (<strong>5 lakh+ requests in 30 minutes</strong>), architected a <strong>Devtron CI/CD</strong> platform from scratch, and upgraded <strong>EKS 1.24 ➜ 1.31</strong> with zero downtime.
                         </p>
                     </div>
 
