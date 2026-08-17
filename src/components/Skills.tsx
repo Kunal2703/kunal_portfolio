@@ -1,4 +1,5 @@
 import { Eyebrow, MaskedHeading, Reveal } from './ui/primitives'
+import Backdrop from './ui/Backdrop'
 import { ICONS } from '../lib/icons'
 import { skillGroups } from '../lib/data'
 
@@ -26,7 +27,8 @@ const Skills = () => {
   const total = skillGroups.reduce((n, g) => n + g.items.length, 0)
 
   return (
-    <section id="skills" className="section" style={{ backgroundColor: 'var(--bg-primary)' }}>
+    <section id="skills" className="section tex tex-rule" style={{ backgroundColor: 'var(--bg-primary)' }}>
+      <Backdrop kind="manifest" />
       <div className="container">
         <Eyebrow index="01">Capabilities</Eyebrow>
 

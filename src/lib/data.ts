@@ -13,7 +13,7 @@ export const profile = {
   email: 'kunalsingh2703@gmail.com',
   experienceYears: '2.5+',
   resumeUrl:
-    'https://drive.google.com/file/d/1XF_8iUQdNo0rvsFDqktNYxyoDC28bVNH/view?usp=sharing',
+    'https://drive.google.com/file/d/15hzqk_-gU00cpDl6X9A3WvLpxpB-7ozS/view?usp=sharing',
   github: 'https://github.com/Kunal2703',
   githubUser: 'Kunal2703',
   linkedin: 'https://www.linkedin.com/in/kunal27/',

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Plus } from 'lucide-react'
 import { Eyebrow, MaskedHeading, Reveal, Pill } from './ui/primitives'
+import Backdrop from './ui/Backdrop'
 import { experience } from '../lib/data'
 
 const EASE = [0.16, 1, 0.3, 1] as const
@@ -10,7 +11,8 @@ const Experience = () => {
   const [open, setOpen] = useState(0)
 
   return (
-    <section id="experience" className="section" style={{ backgroundColor: '#0f0f0f' }}>
+    <section id="experience" className="section tex tex-bloom tex-bloom-left" style={{ backgroundColor: '#0f0f0f' }}>
+      <Backdrop kind="pipeline" />
       <div className="container">
         <Eyebrow index="02">Experience</Eyebrow>
 

@@ -1,72 +1,9 @@
-import { useState, useEffect } from 'react';
 import { ArrowRight, Download } from 'lucide-react';
+import HeroTerminal from './HeroTerminal';
 
 const Hero = () => {
-  const [terminalStep, setTerminalStep] = useState(0);
-  const [displayedText, setDisplayedText] = useState('');
-  const [showOutput, setShowOutput] = useState(false);
-
-  // Sequence Constants
-  const bioText = "Hi, I'm Kunal. DevOps & SRE Engineer with 2.5+ years of experience. | Specialized in AWS, GCP, Kubernetes (EKS/GKE), Terraform, and FinOps. | Currently building a multi-tenant AI-native platform end-to-end @UrumiAI.";
-  const finalText = "Open to collaborating on scalable solutions, DevOps automation, and impactful engineering problems.";
-
-  useEffect(() => {
-    let timeout: number;
-
-    // Step 0: Initial delay before showing output for kubectl command
-    if (terminalStep === 0) {
-      timeout = setTimeout(() => {
-        setTerminalStep(1);
-        setShowOutput(true);
-      }, 1500);
-    }
-    // Step 1: Wait after showing output, then clear (Step 2)
-    else if (terminalStep === 1) {
-      timeout = setTimeout(() => {
-        setTerminalStep(2); // Clear screen
-      }, 3500);
-    }
-    // Step 2: Clear screen state -> Move to Step 3 (Start typing bio)
-    else if (terminalStep === 2) {
-      setDisplayedText('');
-      setTerminalStep(3);
-    }
-    // Step 3: Type Bio
-    else if (terminalStep === 3) {
-      if (displayedText.length < bioText.length) {
-        timeout = setTimeout(() => {
-          setDisplayedText(bioText.slice(0, displayedText.length + 1));
-        }, 50); // Typing speed
-      } else {
-        timeout = setTimeout(() => setTerminalStep(4), 3000); // Wait after typing bio
-      }
-    }
-    // Step 4: Clear for final message
-    else if (terminalStep === 4) {
-      setDisplayedText('');
-      setTerminalStep(5);
-    }
-    // Step 5: Type Final Message
-    else if (terminalStep === 5) {
-      if (displayedText.length < finalText.length) {
-        timeout = setTimeout(() => {
-          setDisplayedText(finalText.slice(0, displayedText.length + 1));
-        }, 50);
-      } else {
-        // Reset to start after delay
-        timeout = setTimeout(() => {
-          setTerminalStep(0);
-          setDisplayedText('');
-          setShowOutput(false);
-        }, 4000);
-      }
-    }
-
-    return () => clearTimeout(timeout);
-  }, [terminalStep, displayedText, bioText, finalText]);
-
   return (
-    <section id="home" className="section" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', position: 'relative', overflow: 'hidden', paddingTop: '80px' }}>
+    <section id="home" className="section tex tex-grid" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', position: 'relative', overflow: 'hidden', paddingTop: '80px' }}>
       {/* Background Glow */}
       <div style={{
         position: 'absolute',
@@ -89,9 +26,6 @@ const Hero = () => {
             height: 200px;
             margin-bottom: 1.5rem;
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-          }
-          .terminal-window {
-            margin-top: 16rem;
           }
           @media (max-width: 968px) {
             #home .container { 
@@ -124,10 +58,6 @@ const Hero = () => {
               flex: 1;
               justify-content: center;
             }
-            .terminal-window { 
-              margin-top: 3rem;
-              font-size: 0.85rem !important;
-            }
           }
           @media (max-width: 480px) {
             .hero-profile-image {
@@ -143,17 +73,7 @@ const Hero = () => {
             .hero-buttons a {
               width: 100%;
             }
-            .terminal-window {
-              margin-top: 2rem;
-            }
-          }
-          .typing-cursor::after {
-            content: '▋';
-            animation: blink 1s step-start infinite;
-            color: var(--accent-primary);
-            margin-left: 2px;
-          }
-          @keyframes blink { 50% { opacity: 0; } }
+          } }
         `}</style>
 
         <div className="hero-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '1.5rem' }}>
@@ -230,112 +150,13 @@ const Hero = () => {
             <a href="#projects" className="btn btn-primary">
               View Work <ArrowRight size={18} />
             </a>
-            <a href="https://drive.google.com/file/d/1XF_8iUQdNo0rvsFDqktNYxyoDC28bVNH/view?usp=sharing" className="btn btn-outline" target="_blank" rel="noopener noreferrer">
+            <a href="https://drive.google.com/file/d/15hzqk_-gU00cpDl6X9A3WvLpxpB-7ozS/view?usp=sharing" className="btn btn-outline" target="_blank" rel="noopener noreferrer">
               Download CV <Download size={18} />
             </a>
           </div>
         </div>
 
-        {/* Terminal Animation */}
-        <div className="terminal-window" style={{
-          backgroundColor: '#1e1e1e',
-          borderRadius: 'var(--radius-lg)',
-          boxShadow: '0 20px 50px -10px rgba(0,0,0,0.5)',
-          overflow: 'hidden',
-          border: '1px solid rgba(255,255,255,0.05)',
-          fontFamily: 'var(--font-mono)',
-          fontSize: '1.05rem',
-          maxWidth: '750px',
-          width: '100%',
-          alignSelf: 'start',
-          display: 'flex',
-          flexDirection: 'column',
-          height: '460px',
-          minHeight: '460px',
-          maxHeight: '460px'
-        }}>
-          {/* Terminal Header */}
-          <div style={{
-            backgroundColor: '#2d2d2d',
-            padding: '0.75rem 1rem',
-            display: 'flex',
-            alignItems: 'center',
-            borderBottom: '1px solid rgba(255,255,255,0.05)'
-          }}>
-            <div style={{ display: 'flex', gap: '0.5rem', marginRight: 'auto' }}>
-              <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#ff5f56' }} />
-              <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#ffbd2e' }} />
-              <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#27c93f' }} />
-            </div>
-            <div style={{ marginLeft: '1rem', color: '#888', fontSize: '0.8rem' }}>user@kunal:~/projects</div>
-          </div>
-
-          {/* Terminal Content */}
-          <div style={{ padding: '1.5rem', color: '#d4d4d4', fontSize: '1.05rem', lineHeight: '1.6', height: '340px', minHeight: '340px', maxHeight: '340px', overflow: 'hidden' }}>
-
-            {(terminalStep <= 1) && (
-              <>
-                <div style={{ marginBottom: '0.5rem' }}>
-                  <span style={{ color: '#27c93f' }}>➜</span> <span style={{ color: '#6366f1' }}>~</span> kubectl apply -f kunal.yaml
-                </div>
-                {showOutput && (
-                  <div style={{ color: '#a0a0a0', marginBottom: '1rem', lineHeight: '1.6' }}>
-                    <div style={{ color: '#888' }}>⚡ Applying configuration...</div>
-                    <div style={{ marginTop: '0.5rem' }}>deployment.apps/<span style={{ color: '#27c93f', fontWeight: '600' }}>kunal-profile</span> <span style={{ color: '#27c93f' }}>created</span></div>
-                    <div>service/<span style={{ color: '#27c93f', fontWeight: '600' }}>portfolio-svc</span> <span style={{ color: '#27c93f' }}>created</span></div>
-                    <div>ingress.networking.k8s.io/<span style={{ color: '#27c93f', fontWeight: '600' }}>gateway</span> <span style={{ color: '#27c93f' }}>created</span></div>
-                    <div style={{ marginTop: '0.75rem', color: '#6366f1' }}>✓ Infrastructure deployed successfully</div>
-                  </div>
-                )}
-                {showOutput && terminalStep === 1 && (
-                  <div>
-                    <span style={{ color: '#27c93f' }}>➜</span> <span style={{ color: '#6366f1' }}>~</span> <span className="typing-cursor"></span>
-                  </div>
-                )}
-              </>
-            )}
-
-            {(terminalStep >= 3 && terminalStep <= 4) && (
-              <div>
-                <div style={{ marginBottom: '0.5rem' }}>
-                  <span style={{ color: '#27c93f' }}>➜</span> <span style={{ color: '#6366f1' }}>~</span> {displayedText}<span className="typing-cursor"></span>
-                </div>
-              </div>
-            )}
-
-            {(terminalStep === 5) && (
-              <div>
-                <div style={{ marginBottom: '0.5rem', fontSize: '1.25rem', lineHeight: '1.6', color: '#fff' }}>
-                  <span style={{ color: '#27c93f', fontSize: '1.05rem' }}>➜</span> <span style={{ color: '#6366f1', fontSize: '1.05rem' }}>~</span> {displayedText}<span className="typing-cursor"></span>
-                </div>
-              </div>
-            )}
-
-
-          </div>
-
-          {/* Status Bar */}
-          <div style={{
-            backgroundColor: '#2d2d2d',
-            padding: '0.5rem 1rem',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            fontSize: '0.8rem',
-            color: '#888',
-            borderTop: '1px solid rgba(255,255,255,0.05)'
-          }}>
-            <div style={{ display: 'flex', gap: '1rem' }}>
-              <span><span style={{ color: '#6366f1' }}>branch:</span> main</span>
-              <span><span style={{ color: '#27c93f' }}>status:</span> healthy</span>
-            </div>
-            <div style={{ display: 'flex', gap: '1rem' }}>
-              <span>AWS: <span style={{ color: '#27c93f' }}>connected</span></span>
-              <span>K8s: <span style={{ color: '#27c93f' }}>v1.32</span></span>
-              <span>TF: <span style={{ color: '#27c93f' }}>v1.6</span></span>
-            </div>
-          </div>
-        </div>
+        <HeroTerminal />
       </div>
 
       <style>{`

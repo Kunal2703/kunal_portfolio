@@ -1,17 +1,76 @@
-import { Server, Activity, Container, Shield } from 'lucide-react';
+import Backdrop from './ui/Backdrop';
+import MetricPanel, { type Metric } from './ui/MetricPanel';
+
+const METRICS: Metric[] = [
+    {
+        title: 'uptime',
+        unit: 'on upgrades',
+        value: '100%',
+        sub: 'zero downtime · staging → beta → prod',
+        tone: 'ok',
+        viz: 'gauge',
+        pct: 100,
+    },
+    {
+        // two accounts trending down at different rates
+        title: 'aws cost cut',
+        unit: 'prod / staging',
+        value: '25% / 65%',
+        sub: 'FinOps right-sizing, 2 accounts',
+        tone: 'ok',
+        viz: 'dual',
+        shape: (t) => 74 + Math.sin(t * 0.5) * 3 + Math.sin(t * 1.7) * 1.4,
+        shapeB: (t) => 42 + Math.sin(t * 0.42) * 7 + Math.sin(t * 1.3) * 3,
+    },
+    {
+        // bursty request volume with an occasional spike
+        title: 'peak traffic',
+        unit: 'req / 30 min',
+        value: '5 Lakh+',
+        sub: 'UP Board Results event',
+        tone: 'info',
+        viz: 'area',
+        shape: (t) =>
+            52 +
+            Math.sin(t * 0.55) * 20 +
+            Math.sin(t * 1.4) * 10 +
+            Math.sin(t * 3.1) * 5 +
+            (Math.sin(t * 0.13) > 0.94 ? 22 : 0),
+    },
+    {
+        title: 'platform build',
+        unit: 'urumi · emdash',
+        value: 'POC ➜ Prod',
+        sub: '8+ AWS services as Terraform IaC',
+        tone: 'violet',
+        viz: 'steps',
+        shape: (t) => 4 + Math.round((Math.sin(t * 0.34) + 1) * 3),
+    },
+    {
+        title: 'eks upgrade',
+        unit: 'control plane',
+        value: '1.24 ➜ 1.33',
+        sub: 'stepped, zero downtime',
+        tone: 'accent',
+        viz: 'steps',
+        shape: (t) => 28 + Math.round((Math.sin(t * 0.28) + 1) * 2.5),
+    },
+    {
+        title: 'devtron',
+        unit: 'from scratch',
+        value: '150+ Apps',
+        sub: 'build & deploy across 3 envs',
+        tone: 'violet',
+        viz: 'bars',
+        shape: (t) => 60 + Math.sin(t * 0.7) * 26 + Math.sin(t * 1.9) * 12,
+    },
+];
 
 const About = () => {
-    const customStats = [
-        { label: 'Uptime', value: 'Zero Downtime', icon: Shield },
-        { label: 'AWS Cost Cut — Prod / Staging', value: '25% / 65%', icon: Activity },
-        { label: 'Peak Traffic Handled', value: '5 Lakh+ Reqs', icon: Server },
-        { label: 'Platform Built on AWS', value: 'POC ➜ Prod', icon: Container },
-        { label: 'EKS Upgrade', value: '1.24 ➜ 1.33', icon: Server },
-        { label: 'Devtron From Scratch', value: '150+ Apps', icon: Container },
-    ];
 
     return (
-        <section id="about" className="section" style={{ backgroundColor: '#0f0f0f' }}>
+        <section id="about" className="section tex tex-grid tex-bloom" style={{ backgroundColor: '#0f0f0f' }}>
+            <Backdrop kind="topology" />
             <div className="container">
                 <h2 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '2rem' }}>About Me</h2>
                 <div style={{ width: '60px', height: '4px', backgroundColor: 'var(--accent-primary)', marginBottom: '3rem', borderRadius: '2px' }} />
@@ -19,14 +78,14 @@ const About = () => {
                 <style>{`
                     .about-grid {
                         display: grid;
-                        grid-template-columns: 1fr 1fr; /* Default to 2 columns for text + stats */
-                        gap: 4rem;
-                        align-items: center;
+                        grid-template-columns: 0.85fr 1.15fr; /* text + metric board */
+                        gap: 3.5rem;
+                        align-items: start;
                     }
                     .stats-grid {
                         display: grid;
                         grid-template-columns: 1fr 1fr;
-                        gap: 1.5rem;
+                        gap: 0.85rem;
                     }
                     @media (max-width: 968px) {
                         .about-grid {
@@ -35,12 +94,13 @@ const About = () => {
                         }
                         .stats-grid {
                             grid-template-columns: 1fr 1fr; /* Keep 2 columns for stats on mobile */
-                            gap: 1rem;
+                            gap: 0.7rem;
                         }
                     }
                      @media (max-width: 480px) {
                         .stats-grid {
-                            gap: 0.75rem; /* Tighter gap on very small screens */
+                            grid-template-columns: 1fr;
+                            gap: 0.6rem;
                         }
                      }
                 `}</style>
@@ -59,27 +119,20 @@ const About = () => {
                         </p>
                     </div>
 
-                    <div className="stats-grid">
-                        {customStats.map((stat) => (
-                            <div key={stat.label} style={{
-                                backgroundColor: 'var(--bg-card)',
-                                padding: '1.5rem',
-                                borderRadius: 'var(--radius-md)',
-                                border: '1px solid rgba(255,255,255,0.05)',
-                                textAlign: 'center',
-                                transition: 'transform 0.3s ease'
-                            }}
-                                onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-5px)'}
-                                onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
-                            >
-                                <div style={{ fontSize: '1.75rem', fontWeight: 'bold', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>
-                                    {stat.value}
-                                </div>
-                                <div style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', letterSpacing: '1px', textTransform: 'uppercase' }}>
-                                    {stat.label}
-                                </div>
-                            </div>
-                        ))}
+                    <div>
+                        {/* board header, like a Grafana dashboard title row */}
+                        <div className="metric-board-head">
+                            <span className="metric-board-dot" />
+                            impact overview
+                            <span className="metric-board-rule" />
+                            <span style={{ letterSpacing: '0.08em', textTransform: 'none' }}>demo board</span>
+                        </div>
+
+                        <div className="stats-grid">
+                            {METRICS.map((m) => (
+                                <MetricPanel key={m.title} m={m} />
+                            ))}
+                        </div>
                     </div>
 
                 </div>

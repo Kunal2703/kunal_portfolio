@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowUpRight } from 'lucide-react'
 import { Eyebrow, MaskedHeading, Reveal, Pill } from './ui/primitives'
+import Backdrop from './ui/Backdrop'
 import { projects } from '../lib/data'
 
 function ProjectRow({ project, index }: { project: (typeof projects)[number]; index: number }) {
@@ -76,7 +77,8 @@ function ProjectRow({ project, index }: { project: (typeof projects)[number]; in
 
 const Projects = () => {
   return (
-    <section id="projects" className="section" style={{ backgroundColor: 'var(--bg-primary)' }}>
+    <section id="projects" className="section tex tex-grid tex-rule" style={{ backgroundColor: 'var(--bg-primary)' }}>
+      <Backdrop kind="terminal" />
       <div className="container">
         <Eyebrow index="03">Selected work</Eyebrow>
 

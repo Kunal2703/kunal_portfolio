@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Mail, MapPin, Send } from 'lucide-react';
+import Backdrop from './ui/Backdrop';
 
 const Contact = () => {
     const [formData, setFormData] = useState({
@@ -26,7 +27,8 @@ const Contact = () => {
     };
 
     return (
-        <section id="contact" className="section" style={{ backgroundColor: '#0a0a0a' }}>
+        <section id="contact" className="section tex tex-bloom tex-bloom-left" style={{ backgroundColor: '#0a0a0a' }}>
+            <Backdrop kind="telemetry" />
             <div className="container">
                 <h2 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '1rem' }}>Get In Touch</h2>
                 <div style={{ width: '60px', height: '4px', backgroundColor: 'var(--accent-primary)', marginBottom: '3rem', borderRadius: '2px' }} />
