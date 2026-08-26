@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { localPosts } from '../lib/posts';
 import { ArrowRight, Calendar, Clock } from 'lucide-react';
-import { usePaperSurface } from '../lib/usePaperSurface';
 
 interface BlogPost {
     title: string;
@@ -27,8 +26,6 @@ const Blog = () => {
     const [posts, setPosts] = useState<BlogPost[]>(LOCAL);
     const [loading, setLoading] = useState(LOCAL.length === 0);
     const [error, setError] = useState<string | null>(null);
-
-    usePaperSurface();
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -100,103 +97,109 @@ const Blog = () => {
         fetchPosts();
     }, []);
 
-    const totalMinutes = posts.reduce((n, p) => n + (p.readTime || 0), 0);
-
-    const formatDate = (iso: string) =>
-        new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
-
     return (
-        <section className="section" style={{ paddingTop: '140px', minHeight: '100vh' }}>
-            <div className="blog-shell">
-                <header className="blog-hero">
-                    <div className="term-path">
-                        <span className="prompt">&gt;_</span>
-                        <span>~/</span>
-                        <span className="seg-current">writing</span>
-                    </div>
-                    <h1>Notes from production</h1>
-                    <p className="lede">
-                        Field notes on DevOps, cloud infrastructure and the migrations that
-                        did not go the way the documentation said they would.
+        <section className="section" style={{ paddingTop: '120px', minHeight: '100vh' }}>
+            <div className="container">
+                <header style={{ marginBottom: '4rem' }}>
+                    <h2 style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '1rem' }}>Technical Blog</h2>
+                    <div style={{ width: '80px', height: '4px', backgroundColor: 'var(--accent-primary)', borderRadius: '2px', marginBottom: '1.5rem' }} />
+                    <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', maxWidth: '600px' }}>
+                        Sharing my experiences and insights in DevOps, Cloud Engineering, and System reliability.
                     </p>
-                    <div className="hero-stats">
-                        <div><b>{posts.length}</b> entries</div>
-                        <div><b>{totalMinutes}</b> min total</div>
-                        <div>
-                            <b><i className="status-dot" /> live</b>
-                            build status
-                        </div>
-                    </div>
                 </header>
 
                 {loading ? (
-                    <div style={{ display: 'flex', justifyContent: 'center', padding: '6rem 0' }}>
+                    <div style={{ display: 'flex', justifyContent: 'center', padding: '5rem 0' }}>
                         <div className="loading-spinner" />
                     </div>
                 ) : error ? (
-                    <div style={{ padding: '5rem 0', color: 'var(--text-secondary)' }}>
-                        <p>Unable to load articles: {error}</p>
-                        <p style={{ marginTop: '1rem', fontSize: '0.9rem' }}>
-                            You can read them directly at{' '}
-                            <a href="https://kunaltheengineer.hashnode.dev/" target="_blank" rel="noopener noreferrer"
-                               style={{ color: 'var(--accent-primary)', textDecoration: 'underline' }}>
-                                kunaltheengineer.hashnode.dev
-                            </a>
-                        </p>
+                    <div style={{ textAlign: 'center', padding: '5rem 0', color: 'var(--text-secondary)' }}>
+                        <p>Unable to load blogs: {error}</p>
+                        <p style={{ marginTop: '1rem', fontSize: '0.9rem' }}>You can visit my blog directly at <a href="https://kunaltheengineer.hashnode.dev/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent-primary)', textDecoration: 'underline' }}>kunaltheengineer.hashnode.dev</a></p>
                     </div>
                 ) : (
-                    <ul className="post-index">
+                    <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))',
+                        gap: '2.5rem'
+                    }}>
                         {posts.map((post, index) => (
-                            <li
-                                key={post.slug || index}
-                                className={`post-row${index === 0 ? ' post-row--featured' : ''}`}
+                            <Link
+                                key={index}
+                                to={`/blog/${post.slug}`}
+                                className="blog-card"
+                                style={{
+                                    backgroundColor: 'var(--bg-card)',
+                                    borderRadius: 'var(--radius-lg)',
+                                    border: '1px solid rgba(255,255,255,0.05)',
+                                    overflow: 'hidden',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    transition: 'var(--transition)'
+                                }}
                             >
-                                <Link to={`/blog/${post.slug}`} className="post-link">
-                                    <div className="post-panel">
-                                        <div className="panel-bar">
-                                            <i /><i /><i />
-                                            <span>{index === 0 ? 'latest' : `entry ${String(index + 1).padStart(2, '0')}`}</span>
-                                        </div>
-                                        <div className="post-thumb">
-                                            <img
-                                                src={post.coverImage}
-                                                alt=""
-                                                loading={index === 0 ? 'eager' : 'lazy'}
-                                                onError={(e) => {
-                                                    (e.currentTarget as HTMLImageElement).style.display = 'none';
-                                                }}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div className="status-line">
-                                            <span><i className="status-dot" /><span className="status-ok">published</span></span>
-                                            <span><Calendar size={12} /> {formatDate(post.publishedAt)}</span>
-                                            <span><Clock size={12} /> {post.readTime} min</span>
-                                        </div>
-                                        <h2 className="post-title">{post.title}</h2>
-                                        <p className="post-brief">{post.brief}</p>
-                                        <span className="post-more">
-                                            read --article <ArrowRight size={14} />
+                                <div style={{ position: 'relative', width: '100%', paddingTop: '56.25%' }}>
+                                    <img
+                                        src={post.coverImage}
+                                        alt={post.title}
+                                        onError={(e) => {
+                                            (e.currentTarget as HTMLImageElement).src = 'https://placehold.co/600x400/1f1f1f/a3a3a3?text=Development';
+                                        }}
+                                        style={{
+                                            position: 'absolute',
+                                            top: 0,
+                                            left: 0,
+                                            width: '100%',
+                                            height: '100%',
+                                            objectFit: 'cover'
+                                        }}
+                                    />
+                                </div>
+                                <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                                    <div style={{ display: 'flex', gap: '1rem', color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '1rem' }}>
+                                        <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                                            <Calendar size={14} /> {new Date(post.publishedAt).toLocaleDateString()}
+                                        </span>
+                                        <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                                            <Clock size={14} /> {post.readTime} min read
                                         </span>
                                     </div>
-                                </Link>
-                            </li>
+                                    <h3 style={{ fontSize: '1.35rem', fontWeight: 'bold', marginBottom: '1rem', lineHeight: '1.4' }}>
+                                        {post.title}
+                                    </h3>
+                                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: '1.6', marginBottom: '1.5rem', flex: 1 }}>
+                                        {post.brief}
+                                    </p>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--accent-primary)', fontWeight: '500', fontSize: '0.95rem' }}>
+                                        Read Article <ArrowRight size={16} />
+                                    </div>
+                                </div>
+                            </Link>
                         ))}
-                    </ul>
+                    </div>
                 )}
             </div>
 
             <style>{`
-                .loading-spinner {
-                    width: 34px;
-                    height: 34px;
-                    border: 3px solid var(--hairline);
-                    border-top-color: var(--accent-primary);
-                    border-radius: 50%;
-                    animation: spin 0.9s linear infinite;
+                .blog-card:hover {
+                    transform: translateY(-8px);
+                    border-color: rgba(99, 102, 241, 0.3);
                 }
-                @keyframes spin { to { transform: rotate(360deg); } }
+                .blog-card:hover h3 {
+                    color: var(--accent-primary);
+                }
+                .loading-spinner {
+                    width: 40px;
+                    height: 40px;
+                    border: 3px solid rgba(99, 102, 241, 0.1);
+                    border-top: 3px solid var(--accent-primary);
+                    border-radius: 50%;
+                    animation: spin 1s linear infinite;
+                }
+                @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
             `}</style>
         </section>
     );
