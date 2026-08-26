@@ -93,13 +93,14 @@ export const experience: Experience[] = [
     location: 'Goa, IN',
     current: true,
     summary:
-      'Owning the platform for an AI-native e-commerce product from first commit — AWS provisioning, multi-tenant Kubernetes, and the observability the team runs on.',
-    stack: ['AWS', 'GCP', 'Terraform', 'Helm', 'EKS', 'GKE', 'PagerDuty'],
+      'Owning the platform for an AI-native e-commerce product and the client migrations that feed it — AWS provisioning, multi-tenant Kubernetes, zero-downtime database cutovers, and the observability the team runs on.',
+    stack: ['AWS', 'GCP', 'Terraform', 'Helm', 'EKS', 'GKE', 'Cloud SQL', 'PagerDuty'],
     points: [
+      'Led 3 production e-commerce migrations (2 UK, 1 US) off managed enterprise hosts onto multi-tenant GKE across 2 regions, largest tenant at ~150GB MySQL and a multi-hundred-thousand-file media library. Engineered the database path on GCP Database Migration Service as a staged CDC chain (source MySQL 5.7 to an intermediate 5.7 bridge replica to Cloud SQL), cutting over at zero replication lag.',
       'Architected and delivered a new AI-native e-commerce platform (EmDash) end-to-end on AWS from scratch — from POC to production — provisioning 8+ AWS services (EKS, ECR, RDS, S3, IAM/IRSA, ALB, VPC, ACM) as Terraform IaC with a multi-tenant Helm provisioner that spins up isolated per-tenant stores, and engineered a dual-cloud (AWS to GCP) integration linking AWS workloads to existing GCP services (dashboard, GitHub CI, MCP gateway).',
-      'Built a production observability stack (Grafana, Google Managed Prometheus, Cloud Monitoring) across 2 GKE regions, delivering 12+ dashboards for Cloud SQL, PHP-FPM, HPA, and endpoint uptime.',
-      'Implemented alerting-as-code (GCP alert policies, HPA to Slack alerter, crash/restart-storm alerts) with 4-tier (L1-L4) PagerDuty on-call escalation.',
-      'Drove resource and cost optimization through zero-downtime deployments and migrations via Helm on GKE, a blue-green node-pool migration (4 to 8 vCPU) right-sizing the largest tenant and a dedicated to shared Cloud SQL migration that eliminated 1 redundant instance, reducing DB spend.',
+      'Built a production observability stack (Grafana, Google Managed Prometheus, Cloud Monitoring, and SigNoz for centralized logging and traces) across 2 GKE regions wired into PagerDuty for incident routing, delivering 12+ dashboards for Cloud SQL, PHP-FPM, HPA, and endpoint uptime.',
+      'Implemented alerting-as-code (GCP alert policies, HPA to Slack alerter, crash/restart-storm alerts) with 4-tier (L1-L4) on-call escalation.',
+      'Drove FinOps and cost optimization across the GCP account — a blue-green node-pool migration (4 to 8 vCPU) right-sizing the largest tenant and a dedicated to shared Cloud SQL migration that eliminated 1 redundant instance — reducing overall cloud spend by ~15% per month.',
       'Resolved multi-tenant Cloud SQL saturation and crash-loops by tuning wp-cron (2s to 60s), Action Scheduler concurrency, HPA, and Redis (up to 4.5GB cache), restoring stability at peak load.',
       'Built an internal self-service tool that automates infrastructure operations, letting the team run pre-approved Terraform and Helm workflows from a browser with live-streamed output, role-based permissions, and full audit logging — removing the need for direct cluster access — and automated a daily GCP FinOps cost report to Slack.',
     ],
@@ -274,6 +275,7 @@ export const skillGroups: SkillGroup[] = [
     items: [
       { name: 'Grafana', icon: 'grafana' },
       { name: 'Prometheus', icon: 'prometheus' },
+      { name: 'SigNoz', icon: 'signoz' },
       { name: 'CloudWatch', icon: 'cloudwatch' },
       { name: 'Alertmanager', icon: 'alertmanager' },
       { name: 'Elastic', icon: 'elastic' },

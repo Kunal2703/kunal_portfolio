@@ -39,6 +39,7 @@ import {
 } from 'react-icons/si'
 import {
   Workflow,
+  ScrollText,
   BookOpenCheck,
   FileSearch,
   Network,
@@ -74,6 +75,7 @@ export const ICONS: Record<string, IconDef> = {
   elastic: { Icon: SiElastic, color: '#43A047' },
   kibana: { Icon: SiKibana, color: '#E8488B' },
   otel: { Icon: SiOpentelemetry, color: '#F5A800' },
+  signoz: { Icon: ScrollText, color: '#E75536' },
   pagerduty: { Icon: SiPagerduty, color: '#06AC38' },
   slack: { Icon: SiSlack, color: '#E01E5A' },
   runbook: { Icon: BookOpenCheck, color: '#39c5cf' },
