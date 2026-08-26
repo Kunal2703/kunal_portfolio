@@ -159,7 +159,11 @@ const BlogPost = () => {
             const heads = Array.from(root.querySelectorAll('h2')).filter((h) => h.id);
             if (!heads.length) return;
 
-            const line = 140; // just below the fixed navbar
+            /* A heading becomes "current" once it reaches the upper third of
+               the viewport, not the moment it clears the navbar. At a fixed
+               140px offset a heading could fill the screen while the previous
+               section stayed highlighted, which reads as the index lagging. */
+            const line = Math.max(160, Math.round(window.innerHeight * 0.34));
             let current = heads[0];
             for (const h of heads) {
                 if (h.getBoundingClientRect().top <= line) current = h;
