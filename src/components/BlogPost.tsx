@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ArrowLeft, Calendar, Clock, AlertCircle } from 'lucide-react';
+import { useDeepSurface } from '../lib/useDeepSurface';
 import { findLocalPost } from '../lib/posts';
 
 interface Article {
@@ -101,28 +102,109 @@ const BlogPost = () => {
         return () => { alive = false; };
     }, [slug]);
 
+    useDeepSurface();
+
+    const bodyRef = useRef<HTMLDivElement>(null);
+    const [activeId, setActiveId] = useState<string>('');
+
+    /* Inject heading ids into the HTML string rather than setting them on the
+       DOM afterwards: React owns this subtree via dangerouslySetInnerHTML and
+       re-renders would drop any attribute we added out of band. */
+    const { html, toc } = useMemo(() => {
+        if (!article) return { html: '', toc: [] as { id: string; text: string }[] };
+
+        const decode = (raw: string) => {
+            const el = document.createElement('textarea');
+            el.innerHTML = raw;
+            return el.value;
+        };
+
+        const items: { id: string; text: string }[] = [];
+        const seen = new Set<string>();
+
+        const out = article.html.replace(
+            /<h2(\s[^>]*)?>([\s\S]*?)<\/h2>/g,
+            (_m, attrs: string | undefined, inner: string) => {
+                const text = decode(inner.replace(/<[^>]+>/g, '')).trim();
+                let id =
+                    text
+                        .toLowerCase()
+                        .replace(/[^a-z0-9]+/g, '-')
+                        .replace(/^-+|-+$/g, '')
+                        .slice(0, 60) || `section-${items.length}`;
+                while (seen.has(id)) id = `${id}-${items.length}`;
+                seen.add(id);
+                items.push({ id, text });
+                return `<h2 id="${id}"${attrs || ''}>${inner}</h2>`;
+            }
+        );
+
+        return { html: out, toc: items };
+    }, [article]);
+
+    /* Highlight whichever section the reader is currently in. A scroll check
+       rather than IntersectionObserver: with an observer, a heading sitting
+       between the band edges fires nothing and the highlight goes stale. */
+    useEffect(() => {
+        const root = bodyRef.current;
+        if (!root || toc.length < 2) return;
+
+        let raf = 0;
+
+        const update = () => {
+            raf = 0;
+            /* Query fresh each time: React re-sets this subtree's innerHTML, and
+               nodes captured once go stale. Detached nodes report top: 0, which
+               would make every heading look scrolled past. */
+            const heads = Array.from(root.querySelectorAll('h2')).filter((h) => h.id);
+            if (!heads.length) return;
+
+            const line = 140; // just below the fixed navbar
+            let current = heads[0];
+            for (const h of heads) {
+                if (h.getBoundingClientRect().top <= line) current = h;
+                else break;
+            }
+            setActiveId(current.id);
+        };
+
+        const onScroll = () => {
+            if (!raf) raf = requestAnimationFrame(update);
+        };
+
+        update();
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll);
+        /* Images and webfonts land after the first paint and shift every
+           heading, so re-measure once everything has settled. */
+        window.addEventListener('load', onScroll);
+        const settle = window.setTimeout(update, 600);
+        return () => {
+            window.removeEventListener('scroll', onScroll);
+            window.removeEventListener('resize', onScroll);
+            window.removeEventListener('load', onScroll);
+            window.clearTimeout(settle);
+            if (raf) cancelAnimationFrame(raf);
+        };
+    }, [html, toc.length]);
+
+    const jumpTo = (e: React.MouseEvent, id: string) => {
+        e.preventDefault();
+        const el = document.getElementById(id);
+        if (!el) return;
+        window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 96, behavior: 'smooth' });
+        setActiveId(id);
+    };
+
     const formatDate = (iso: string) =>
         new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
     return (
-        <article className="section" style={{ paddingTop: '120px', minHeight: '100vh' }}>
-            <div style={{ maxWidth: '760px', margin: '0 auto', padding: '0 1.5rem' }}>
+        <article className="section" style={{ paddingTop: '150px', minHeight: '100vh' }}>
+            <div className="article-wide">
 
-                <Link
-                    to="/blog"
-                    style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '0.5rem',
-                        color: 'var(--text-secondary)',
-                        fontSize: '0.9rem',
-                        fontFamily: 'var(--font-mono)',
-                        marginBottom: '2.5rem',
-                    }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--text-primary)')}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-secondary)')}
-                >
-                    <ArrowLeft size={16} /> All articles
+                <Link to="/blog" className="article-back">
+                    <ArrowLeft size={15} /> All articles
                 </Link>
 
                 {loading && (
@@ -162,70 +244,24 @@ const BlogPost = () => {
 
                 {!loading && !error && article && (
                     <>
-                        {/* Meta */}
-                        <div
-                            style={{
-                                display: 'flex',
-                                flexWrap: 'wrap',
-                                gap: '1.25rem',
-                                color: 'var(--text-muted)',
-                                fontSize: '0.85rem',
-                                fontFamily: 'var(--font-mono)',
-                                marginBottom: '1.25rem',
-                            }}
-                        >
-                            <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                                <Calendar size={14} /> {formatDate(article.publishedAt)}
-                            </span>
-                            <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                                <Clock size={14} /> {article.readTime} min read
-                            </span>
+                        <header className="article-head">
+                        <div className="card-meta">
+                            <span><Calendar size={13} /> {formatDate(article.publishedAt)}</span>
+                            <span><Clock size={13} /> {article.readTime} min read</span>
                         </div>
 
-                        <h1
-                            style={{
-                                fontSize: 'clamp(2rem, 5.5vw, 3.25rem)',
-                                fontWeight: 800,
-                                lineHeight: 1.1,
-                                letterSpacing: '-0.03em',
-                                marginBottom: article.subtitle ? '1rem' : '2rem',
-                            }}
-                        >
-                            {article.title}
-                        </h1>
+                        <h1>{article.title}</h1>
 
-                        {article.subtitle && (
-                            <p
-                                style={{
-                                    fontSize: '1.15rem',
-                                    color: 'var(--text-secondary)',
-                                    lineHeight: 1.6,
-                                    marginBottom: '2rem',
-                                }}
-                            >
-                                {article.subtitle}
-                            </p>
-                        )}
+                        {article.subtitle && <p className="article-sub">{article.subtitle}</p>}
 
                         {article.tags.length > 0 && (
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '2.5rem' }}>
+                            <div className="article-tags">
                                 {article.tags.slice(0, 6).map((tag) => (
-                                    <span
-                                        key={tag}
-                                        style={{
-                                            fontSize: '0.78rem',
-                                            fontFamily: 'var(--font-mono)',
-                                            color: 'var(--text-secondary)',
-                                            border: '1px solid rgba(255,255,255,0.1)',
-                                            borderRadius: '999px',
-                                            padding: '0.3rem 0.8rem',
-                                        }}
-                                    >
-                                        {tag}
-                                    </span>
+                                    <span key={tag} className="article-tag">{tag}</span>
                                 ))}
                             </div>
                         )}
+                        </header>
 
                         {/* Cover image — skipped when the body already shows it, so
                             posts whose cover *is* their in-article diagram (e.g. the
@@ -238,20 +274,42 @@ const BlogPost = () => {
                                     width: '100%',
                                     height: 'auto',
                                     borderRadius: 'var(--radius-lg)',
-                                    border: '1px solid rgba(255,255,255,0.07)',
+                                    border: '1px solid var(--edge)',
                                     marginBottom: '3rem',
                                 }}
                             />
                         )}
 
-                        {/* Body — Hashnode-authored HTML, styled by .prose */}
-                        <div className="prose" dangerouslySetInnerHTML={{ __html: article.html }} />
+                        {/* Body + section index */}
+                        <div className="article-layout">
+                            <div className="article-main" ref={bodyRef}>
+                                <div className="prose" dangerouslySetInnerHTML={{ __html: html }} />
+                            </div>
+
+                            {toc.length > 1 && (
+                                <aside className="article-toc">
+                                    <p className="toc-title">Outline</p>
+                                    <nav>
+                                        {toc.map((t) => (
+                                            <a
+                                                key={t.id}
+                                                href={`#${t.id}`}
+                                                onClick={(e) => jumpTo(e, t.id)}
+                                                className={`toc-link${t.id === activeId ? ' is-active' : ''}`}
+                                            >
+                                                {t.text}
+                                            </a>
+                                        ))}
+                                    </nav>
+                                </aside>
+                            )}
+                        </div>
 
                         <div
                             style={{
                                 marginTop: '4rem',
                                 paddingTop: '2rem',
-                                borderTop: '1px solid rgba(255,255,255,0.08)',
+                                borderTop: '1px solid var(--edge)',
                             }}
                         >
                             <Link
