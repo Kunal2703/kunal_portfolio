@@ -9,6 +9,10 @@ const Navbar = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
+    /* Blog pages use the light paper surface; the bar is always solid there so
+       long-form content never shows through it while scrolling. */
+    const isPaper = location.pathname.startsWith('/blog');
+
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 20);
@@ -61,9 +65,9 @@ const Navbar = () => {
             className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-[#0a0a0a]/80 backdrop-blur-md border-b border-white/5' : 'bg-transparent'
                 }`}
             style={{
-                backgroundColor: isScrolled ? 'rgba(10, 10, 10, 0.9)' : 'transparent',
-                backdropFilter: isScrolled ? 'blur(10px)' : 'none',
-                borderBottom: isScrolled ? '1px solid rgba(255, 255, 255, 0.05)' : 'none'
+                backgroundColor: isScrolled || isPaper ? 'var(--nav-bg)' : 'transparent',
+                backdropFilter: isScrolled || isPaper ? 'blur(10px)' : 'none',
+                borderBottom: isScrolled || isPaper ? '1px solid var(--hairline-soft)' : 'none'
             }}
         >
             <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '80px' }}>

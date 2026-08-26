@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ArrowLeft, Calendar, Clock, AlertCircle } from 'lucide-react';
+import { usePaperSurface } from '../lib/usePaperSurface';
 import { findLocalPost } from '../lib/posts';
 
 interface Article {
@@ -101,28 +102,17 @@ const BlogPost = () => {
         return () => { alive = false; };
     }, [slug]);
 
+    usePaperSurface();
+
     const formatDate = (iso: string) =>
         new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
     return (
-        <article className="section" style={{ paddingTop: '120px', minHeight: '100vh' }}>
-            <div style={{ maxWidth: '760px', margin: '0 auto', padding: '0 1.5rem' }}>
+        <article className="section" style={{ paddingTop: '140px', minHeight: '100vh' }}>
+            <div className="article-shell">
 
-                <Link
-                    to="/blog"
-                    style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '0.5rem',
-                        color: 'var(--text-secondary)',
-                        fontSize: '0.9rem',
-                        fontFamily: 'var(--font-mono)',
-                        marginBottom: '2.5rem',
-                    }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--text-primary)')}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-secondary)')}
-                >
-                    <ArrowLeft size={16} /> All articles
+                <Link to="/blog" className="back-link">
+                    <ArrowLeft size={15} /> All articles
                 </Link>
 
                 {loading && (
@@ -144,7 +134,7 @@ const BlogPost = () => {
                             alignItems: 'flex-start',
                             gap: '0.85rem',
                             backgroundColor: 'var(--bg-card)',
-                            border: '1px solid rgba(255,255,255,0.07)',
+                            border: '1px solid var(--hairline)',
                             borderRadius: 'var(--radius-lg)',
                             padding: '1.5rem',
                             color: 'var(--text-secondary)',
@@ -162,70 +152,24 @@ const BlogPost = () => {
 
                 {!loading && !error && article && (
                     <>
-                        {/* Meta */}
-                        <div
-                            style={{
-                                display: 'flex',
-                                flexWrap: 'wrap',
-                                gap: '1.25rem',
-                                color: 'var(--text-muted)',
-                                fontSize: '0.85rem',
-                                fontFamily: 'var(--font-mono)',
-                                marginBottom: '1.25rem',
-                            }}
-                        >
-                            <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                                <Calendar size={14} /> {formatDate(article.publishedAt)}
-                            </span>
-                            <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                                <Clock size={14} /> {article.readTime} min read
-                            </span>
+                        <header className="article-head">
+                        <div className="post-meta">
+                            <span><Calendar size={13} /> {formatDate(article.publishedAt)}</span>
+                            <span><Clock size={13} /> {article.readTime} min read</span>
                         </div>
 
-                        <h1
-                            style={{
-                                fontSize: 'clamp(2rem, 5.5vw, 3.25rem)',
-                                fontWeight: 800,
-                                lineHeight: 1.1,
-                                letterSpacing: '-0.03em',
-                                marginBottom: article.subtitle ? '1rem' : '2rem',
-                            }}
-                        >
-                            {article.title}
-                        </h1>
+                        <h1>{article.title}</h1>
 
-                        {article.subtitle && (
-                            <p
-                                style={{
-                                    fontSize: '1.15rem',
-                                    color: 'var(--text-secondary)',
-                                    lineHeight: 1.6,
-                                    marginBottom: '2rem',
-                                }}
-                            >
-                                {article.subtitle}
-                            </p>
-                        )}
+                        {article.subtitle && <p className="article-sub">{article.subtitle}</p>}
 
                         {article.tags.length > 0 && (
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '2.5rem' }}>
+                            <div className="article-tags">
                                 {article.tags.slice(0, 6).map((tag) => (
-                                    <span
-                                        key={tag}
-                                        style={{
-                                            fontSize: '0.78rem',
-                                            fontFamily: 'var(--font-mono)',
-                                            color: 'var(--text-secondary)',
-                                            border: '1px solid rgba(255,255,255,0.1)',
-                                            borderRadius: '999px',
-                                            padding: '0.3rem 0.8rem',
-                                        }}
-                                    >
-                                        {tag}
-                                    </span>
+                                    <span key={tag} className="article-tag">{tag}</span>
                                 ))}
                             </div>
                         )}
+                        </header>
 
                         {/* Cover image — skipped when the body already shows it, so
                             posts whose cover *is* their in-article diagram (e.g. the
@@ -238,7 +182,7 @@ const BlogPost = () => {
                                     width: '100%',
                                     height: 'auto',
                                     borderRadius: 'var(--radius-lg)',
-                                    border: '1px solid rgba(255,255,255,0.07)',
+                                    border: '1px solid var(--hairline)',
                                     marginBottom: '3rem',
                                 }}
                             />
@@ -251,7 +195,7 @@ const BlogPost = () => {
                             style={{
                                 marginTop: '4rem',
                                 paddingTop: '2rem',
-                                borderTop: '1px solid rgba(255,255,255,0.08)',
+                                borderTop: '1px solid var(--hairline)',
                             }}
                         >
                             <Link
@@ -268,7 +212,7 @@ const BlogPost = () => {
 
             <style>{`
                 .skeleton {
-                    background: linear-gradient(90deg, #1a1a1a 25%, #232323 50%, #1a1a1a 75%);
+                    background: linear-gradient(90deg, var(--bg-secondary) 25%, var(--bg-card) 50%, var(--bg-secondary) 75%);
                     background-size: 200% 100%;
                     border-radius: var(--radius-md);
                     animation: skeleton-shimmer 1.4s ease-in-out infinite;
