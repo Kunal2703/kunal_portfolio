@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ArrowLeft, Calendar, Clock, AlertCircle } from 'lucide-react';
 import { useDeepSurface } from '../lib/useDeepSurface';
@@ -104,12 +104,98 @@ const BlogPost = () => {
 
     useDeepSurface();
 
+    const bodyRef = useRef<HTMLDivElement>(null);
+    const [activeId, setActiveId] = useState<string>('');
+
+    /* Inject heading ids into the HTML string rather than setting them on the
+       DOM afterwards: React owns this subtree via dangerouslySetInnerHTML and
+       re-renders would drop any attribute we added out of band. */
+    const { html, toc } = useMemo(() => {
+        if (!article) return { html: '', toc: [] as { id: string; text: string }[] };
+
+        const decode = (raw: string) => {
+            const el = document.createElement('textarea');
+            el.innerHTML = raw;
+            return el.value;
+        };
+
+        const items: { id: string; text: string }[] = [];
+        const seen = new Set<string>();
+
+        const out = article.html.replace(
+            /<h2(\s[^>]*)?>([\s\S]*?)<\/h2>/g,
+            (_m, attrs: string | undefined, inner: string) => {
+                const text = decode(inner.replace(/<[^>]+>/g, '')).trim();
+                let id =
+                    text
+                        .toLowerCase()
+                        .replace(/[^a-z0-9]+/g, '-')
+                        .replace(/^-+|-+$/g, '')
+                        .slice(0, 60) || `section-${items.length}`;
+                while (seen.has(id)) id = `${id}-${items.length}`;
+                seen.add(id);
+                items.push({ id, text });
+                return `<h2 id="${id}"${attrs || ''}>${inner}</h2>`;
+            }
+        );
+
+        return { html: out, toc: items };
+    }, [article]);
+
+    /* Highlight whichever section the reader is currently in. A scroll check
+       rather than IntersectionObserver: with an observer, a heading sitting
+       between the band edges fires nothing and the highlight goes stale. */
+    useEffect(() => {
+        const root = bodyRef.current;
+        if (!root || toc.length < 2) return;
+
+        let raf = 0;
+
+        const update = () => {
+            raf = 0;
+            /* Query fresh each time: React re-sets this subtree's innerHTML, and
+               nodes captured once go stale. Detached nodes report top: 0, which
+               would make every heading look scrolled past. */
+            const heads = Array.from(root.querySelectorAll('h2')).filter((h) => h.id);
+            if (!heads.length) return;
+
+            const line = 140; // just below the fixed navbar
+            let current = heads[0];
+            for (const h of heads) {
+                if (h.getBoundingClientRect().top <= line) current = h;
+                else break;
+            }
+            setActiveId(current.id);
+        };
+
+        const onScroll = () => {
+            if (!raf) raf = requestAnimationFrame(update);
+        };
+
+        update();
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll);
+        return () => {
+            window.removeEventListener('scroll', onScroll);
+            window.removeEventListener('resize', onScroll);
+            if (raf) cancelAnimationFrame(raf);
+        };
+    }, [html, toc.length]);
+
+    const jumpTo = (e: React.MouseEvent, id: string) => {
+        e.preventDefault();
+        const el = document.getElementById(id);
+        if (!el) return;
+        window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 96, behavior: 'smooth' });
+        setActiveId(id);
+    };
+
     const formatDate = (iso: string) =>
         new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
     return (
         <article className="section" style={{ paddingTop: '150px', minHeight: '100vh' }}>
-            <div className="article-shell">
+            <div className="article-wide">
 
                 <Link to="/blog" className="article-back">
                     <ArrowLeft size={15} /> All articles
@@ -188,8 +274,30 @@ const BlogPost = () => {
                             />
                         )}
 
-                        {/* Body — Hashnode-authored HTML, styled by .prose */}
-                        <div className="prose" dangerouslySetInnerHTML={{ __html: article.html }} />
+                        {/* Body + section index */}
+                        <div className="article-layout">
+                            <div className="article-main" ref={bodyRef}>
+                                <div className="prose" dangerouslySetInnerHTML={{ __html: html }} />
+                            </div>
+
+                            {toc.length > 1 && (
+                                <aside className="article-toc">
+                                    <p className="toc-title">On this page</p>
+                                    <nav>
+                                        {toc.map((t) => (
+                                            <a
+                                                key={t.id}
+                                                href={`#${t.id}`}
+                                                onClick={(e) => jumpTo(e, t.id)}
+                                                className={`toc-link${t.id === activeId ? ' is-active' : ''}`}
+                                            >
+                                                {t.text}
+                                            </a>
+                                        ))}
+                                    </nav>
+                                </aside>
+                            )}
+                        </div>
 
                         <div
                             style={{
