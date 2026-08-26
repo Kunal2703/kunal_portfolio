@@ -1,5 +1,6 @@
 import { ArrowRight, Download } from 'lucide-react';
 import HeroTerminal from './HeroTerminal';
+import { profile } from '../lib/data';
 
 const Hero = () => {
   return (
@@ -150,7 +151,7 @@ const Hero = () => {
             <a href="#projects" className="btn btn-primary">
               View Work <ArrowRight size={18} />
             </a>
-            <a href="https://drive.google.com/file/d/15hzqk_-gU00cpDl6X9A3WvLpxpB-7ozS/view?usp=sharing" className="btn btn-outline" target="_blank" rel="noopener noreferrer">
+            <a href={profile.resumeUrl} className="btn btn-outline" target="_blank" rel="noopener noreferrer">
               Download CV <Download size={18} />
             </a>
           </div>
