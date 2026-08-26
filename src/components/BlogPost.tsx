@@ -288,7 +288,7 @@ const BlogPost = () => {
 
                             {toc.length > 1 && (
                                 <aside className="article-toc">
-                                    <p className="toc-title">On this page</p>
+                                    <p className="toc-title">Outline</p>
                                     <nav>
                                         {toc.map((t) => (
                                             <a
