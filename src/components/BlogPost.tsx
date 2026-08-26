@@ -111,8 +111,10 @@ const BlogPost = () => {
         <article className="section" style={{ paddingTop: '140px', minHeight: '100vh' }}>
             <div className="article-shell">
 
-                <Link to="/blog" className="back-link">
-                    <ArrowLeft size={15} /> All articles
+                <Link to="/blog" className="term-path">
+                    <span className="prompt">&gt;_</span>
+                    <span>~/writing/</span>
+                    <span className="seg-current">{slug}</span>
                 </Link>
 
                 {loading && (
@@ -153,9 +155,10 @@ const BlogPost = () => {
                 {!loading && !error && article && (
                     <>
                         <header className="article-head">
-                        <div className="post-meta">
-                            <span><Calendar size={13} /> {formatDate(article.publishedAt)}</span>
-                            <span><Clock size={13} /> {article.readTime} min read</span>
+                        <div className="status-line">
+                            <span><i className="status-dot" /><span className="status-ok">published</span></span>
+                            <span><Calendar size={12} /> {formatDate(article.publishedAt)}</span>
+                            <span><Clock size={12} /> {article.readTime} min read</span>
                         </div>
 
                         <h1>{article.title}</h1>

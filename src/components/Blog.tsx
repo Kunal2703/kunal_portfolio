@@ -100,6 +100,8 @@ const Blog = () => {
         fetchPosts();
     }, []);
 
+    const totalMinutes = posts.reduce((n, p) => n + (p.readTime || 0), 0);
+
     const formatDate = (iso: string) =>
         new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
 
@@ -107,12 +109,24 @@ const Blog = () => {
         <section className="section" style={{ paddingTop: '140px', minHeight: '100vh' }}>
             <div className="blog-shell">
                 <header className="blog-hero">
-                    <p className="eyebrow-mono">Writing</p>
+                    <div className="term-path">
+                        <span className="prompt">&gt;_</span>
+                        <span>~/</span>
+                        <span className="seg-current">writing</span>
+                    </div>
                     <h1>Notes from production</h1>
                     <p className="lede">
                         Field notes on DevOps, cloud infrastructure and the migrations that
                         did not go the way the documentation said they would.
                     </p>
+                    <div className="hero-stats">
+                        <div><b>{posts.length}</b> entries</div>
+                        <div><b>{totalMinutes}</b> min total</div>
+                        <div>
+                            <b><i className="status-dot" /> live</b>
+                            build status
+                        </div>
+                    </div>
                 </header>
 
                 {loading ? (
@@ -138,26 +152,32 @@ const Blog = () => {
                                 className={`post-row${index === 0 ? ' post-row--featured' : ''}`}
                             >
                                 <Link to={`/blog/${post.slug}`} className="post-link">
-                                    <div className="post-thumb">
-                                        <img
-                                            src={post.coverImage}
-                                            alt=""
-                                            loading={index === 0 ? 'eager' : 'lazy'}
-                                            onError={(e) => {
-                                                (e.currentTarget as HTMLImageElement).style.display = 'none';
-                                            }}
-                                        />
+                                    <div className="post-panel">
+                                        <div className="panel-bar">
+                                            <i /><i /><i />
+                                            <span>{index === 0 ? 'latest' : `entry ${String(index + 1).padStart(2, '0')}`}</span>
+                                        </div>
+                                        <div className="post-thumb">
+                                            <img
+                                                src={post.coverImage}
+                                                alt=""
+                                                loading={index === 0 ? 'eager' : 'lazy'}
+                                                onError={(e) => {
+                                                    (e.currentTarget as HTMLImageElement).style.display = 'none';
+                                                }}
+                                            />
+                                        </div>
                                     </div>
                                     <div>
-                                        {index === 0 && <span className="featured-flag">Latest</span>}
-                                        <div className="post-meta">
-                                            <span><Calendar size={13} /> {formatDate(post.publishedAt)}</span>
-                                            <span><Clock size={13} /> {post.readTime} min read</span>
+                                        <div className="status-line">
+                                            <span><i className="status-dot" /><span className="status-ok">published</span></span>
+                                            <span><Calendar size={12} /> {formatDate(post.publishedAt)}</span>
+                                            <span><Clock size={12} /> {post.readTime} min</span>
                                         </div>
                                         <h2 className="post-title">{post.title}</h2>
                                         <p className="post-brief">{post.brief}</p>
                                         <span className="post-more">
-                                            Read article <ArrowRight size={15} />
+                                            read --article <ArrowRight size={14} />
                                         </span>
                                     </div>
                                 </Link>
