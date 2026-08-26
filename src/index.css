@@ -1055,6 +1055,7 @@ button {
 .toc-link.is-active {
   color: var(--accent-primary);
   border-left-color: var(--accent-primary);
+  background: linear-gradient(90deg, var(--accent-glow), transparent 80%);
   font-weight: 600;
 }
 

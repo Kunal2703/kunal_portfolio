@@ -175,9 +175,15 @@ const BlogPost = () => {
         update();
         window.addEventListener('scroll', onScroll, { passive: true });
         window.addEventListener('resize', onScroll);
+        /* Images and webfonts land after the first paint and shift every
+           heading, so re-measure once everything has settled. */
+        window.addEventListener('load', onScroll);
+        const settle = window.setTimeout(update, 600);
         return () => {
             window.removeEventListener('scroll', onScroll);
             window.removeEventListener('resize', onScroll);
+            window.removeEventListener('load', onScroll);
+            window.clearTimeout(settle);
             if (raf) cancelAnimationFrame(raf);
         };
     }, [html, toc.length]);
