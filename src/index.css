@@ -618,3 +618,357 @@ button {
     opacity: 0.8;
   }
 }
+
+/* ============================================================
+   Blog index + article page — deep surface
+   Set by Blog.tsx / BlogPost.tsx via data-surface on <html>.
+   Darker and bluer than the site default, with layered cards.
+   ============================================================ */
+
+:root[data-surface="deep"] {
+  --bg-primary: #0a0d13;
+  --bg-secondary: #101620;
+  --bg-card: #141b27;
+  --bg-raise: #1a2331;
+
+  --text-primary: #e9eef7;
+  --text-secondary: #9aa8c0;
+  --text-muted: #64748b;
+
+  --accent-primary: #818cf8;
+  --accent-secondary: #c084fc;
+  --accent-glow: rgba(129, 140, 248, 0.16);
+
+  --edge: rgba(148, 175, 255, 0.12);
+  --edge-soft: rgba(148, 175, 255, 0.07);
+  --signal: #34d399;
+}
+
+:root[data-surface="deep"] body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* One soft light source behind the header, so the page is not flat black. */
+:root[data-surface="deep"] body::before {
+  content: '';
+  position: fixed;
+  top: -30vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(1100px, 120vw);
+  height: 70vh;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(129, 140, 248, 0.13) 0%,
+    rgba(192, 132, 252, 0.06) 38%,
+    transparent 70%
+  );
+}
+
+:root[data-surface="deep"] nav,
+:root[data-surface="deep"] main,
+:root[data-surface="deep"] footer { position: relative; z-index: 1; }
+
+:root[data-surface="deep"] nav {
+  background-color: rgba(10, 13, 19, 0.82) !important;
+  border-bottom: 1px solid var(--edge-soft) !important;
+  backdrop-filter: blur(12px) !important;
+}
+
+.blog-shell { max-width: 68rem; margin: 0 auto; padding: 0 1.5rem; }
+.article-shell { max-width: 45rem; margin: 0 auto; padding: 0 1.5rem; }
+
+/* --- hero --- */
+
+.blog-hero { padding-bottom: 3rem; }
+
+.blog-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent-primary);
+  margin: 0 0 1.25rem;
+}
+
+.blog-kicker::before {
+  content: '';
+  width: 1.75rem;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-primary));
+}
+
+.blog-hero h1 {
+  font-size: clamp(2.5rem, 6.5vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.0;
+  margin: 0;
+  text-wrap: balance;
+  background: linear-gradient(180deg, var(--text-primary) 40%, #93a2c4 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.blog-hero .lede {
+  margin: 1.35rem 0 0;
+  max-width: 36rem;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+/* --- cards --- */
+
+.post-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.75rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.post-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--edge);
+  border-radius: 14px;
+  overflow: hidden;
+  color: inherit;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.35s ease,
+              box-shadow 0.35s ease;
+}
+
+/* Hairline highlight along the top edge — reads as light catching an edge. */
+.post-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 12%;
+  right: 12%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--edge), transparent);
+  opacity: 0.9;
+}
+
+.post-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(129, 140, 248, 0.4);
+  box-shadow: 0 18px 40px -20px rgba(0, 0, 0, 0.8), 0 0 0 1px var(--accent-glow);
+}
+
+/* Covers are diagrams and logos, so contain them on a panel rather than
+   cropping with object-fit: cover. */
+.card-cover {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--edge-soft);
+  overflow: hidden;
+}
+
+.card-cover img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 0.9rem;
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.post-card:hover .card-cover img { transform: scale(1.04); }
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1.5rem 1.6rem 1.7rem;
+}
+
+.card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.73rem;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  margin-bottom: 0.9rem;
+}
+
+.card-meta span { display: inline-flex; align-items: center; gap: 0.4rem; }
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.32;
+  margin: 0;
+  text-wrap: balance;
+  transition: color 0.25s ease;
+}
+
+.post-card:hover .card-title { color: var(--accent-primary); }
+
+.card-brief {
+  margin: 0.8rem 0 0;
+  color: var(--text-secondary);
+  font-size: 0.94rem;
+  line-height: 1.68;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 1.35rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--accent-primary);
+}
+
+.card-more svg { transition: transform 0.25s ease; }
+.post-card:hover .card-more svg { transform: translateX(4px); }
+
+/* --- featured --- */
+
+.post-card--featured {
+  grid-column: 1 / -1;
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.post-card--featured .card-cover {
+  flex: 0 0 46%;
+  aspect-ratio: auto;
+  border-bottom: 0;
+  border-right: 1px solid var(--edge-soft);
+}
+
+.post-card--featured .card-body { padding: 2.25rem 2.4rem; justify-content: center; }
+
+.post-card--featured .card-title {
+  font-size: clamp(1.5rem, 2.6vw, 1.95rem);
+  letter-spacing: -0.03em;
+}
+
+.post-card--featured .card-brief {
+  font-size: 1rem;
+  flex: 0 1 auto;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+}
+
+.badge-new {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--signal);
+  border: 1px solid rgba(52, 211, 153, 0.28);
+  background: rgba(52, 211, 153, 0.08);
+  border-radius: 999px;
+  padding: 0.3rem 0.7rem;
+  margin-bottom: 1rem;
+  width: fit-content;
+}
+
+.badge-new i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--signal);
+}
+
+/* --- article page --- */
+
+.article-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 2.5rem;
+  transition: color 0.25s ease;
+}
+
+.article-back:hover { color: var(--accent-primary); }
+
+.article-head { padding-bottom: 2.25rem; border-bottom: 1px solid var(--edge); margin-bottom: 2.75rem; }
+
+.article-head h1 {
+  font-size: clamp(2.15rem, 5.2vw, 3.1rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.07;
+  margin: 0 0 1.1rem;
+  text-wrap: balance;
+}
+
+.article-sub { font-size: 1.15rem; line-height: 1.65; color: var(--text-secondary); margin: 0 0 1.6rem; text-wrap: pretty; }
+
+.article-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+.article-tag {
+  font-family: var(--font-mono);
+  font-size: 0.73rem;
+  color: var(--text-secondary);
+  border: 1px solid var(--edge);
+  background: var(--bg-card);
+  border-radius: 999px;
+  padding: 0.3rem 0.75rem;
+}
+
+:root[data-surface="deep"] .prose h2 {
+  padding-top: 2rem;
+  border-top: 1px solid var(--edge-soft);
+}
+
+:root[data-surface="deep"] .prose img,
+:root[data-surface="deep"] .prose table,
+:root[data-surface="deep"] .prose pre { border-color: var(--edge); }
+
+:root[data-surface="deep"] .prose img { background: var(--bg-secondary); }
+
+:root[data-surface="deep"] .prose blockquote {
+  background: var(--bg-card);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  padding: 1rem 1.25rem;
+  font-style: normal;
+}
+
+@media (max-width: 900px) {
+  .post-grid { grid-template-columns: 1fr; }
+  .post-card--featured { flex-direction: column; }
+  .post-card--featured .card-cover {
+    flex: none;
+    aspect-ratio: 16 / 9;
+    border-right: 0;
+    border-bottom: 1px solid var(--edge-soft);
+  }
+  .post-card--featured .card-body { padding: 1.5rem 1.6rem 1.7rem; }
+}
