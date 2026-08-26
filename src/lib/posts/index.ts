@@ -8,6 +8,7 @@
  * Order here is the order shown in the blog grid (newest first).
  */
 
+import { mariadbCloudsql57Bridge } from './mariadb-cloudsql-57-bridge'
 import { awsRedirect } from './aws-redirect'
 import { eks131Oidc } from './eks-131-oidc'
 import { cloudNativeEks } from './cloud-native-eks'
@@ -18,6 +19,7 @@ import type { LocalPost } from './types'
 export type { LocalPost }
 
 export const localPosts: LocalPost[] = [
+    mariadbCloudsql57Bridge, // 2026-08-26
     awsRedirect, // 2025-07-10
     eks131Oidc, // 2025-06-27
     cloudNativeEks, // 2025-04-24
