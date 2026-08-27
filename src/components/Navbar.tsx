@@ -3,6 +3,22 @@ import { Menu, X, Github, Linkedin, Terminal, Sun, Moon } from 'lucide-react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useSurface, setSurface } from '../lib/blogSurface';
 
+/**
+ * Topmate mark, from topmate.io/favicon.svg. Simple Icons has no Topmate
+ * glyph, so the paths are inlined. Drawn in currentColor rather than the
+ * brand red so it sits with the lucide icons beside it; the brand colour
+ * comes back on hover, the same way LinkedIn and GitHub behave.
+ */
+const TopmateIcon = ({ size = 20 }: { size?: number }) => (
+    <svg width={size} height={size} viewBox="0 0 47 46" fill="none" aria-hidden="true">
+        <circle cx="23.62" cy="23" r="21.4" stroke="currentColor" strokeWidth="2.2" />
+        <path
+            d="M33.0038 29.6411C31.5707 31.6672 29.5206 33.1752 27.1598 33.9401C24.7989 34.705 22.254 34.6857 19.905 33.8851C17.5561 33.0844 15.5291 31.5454 14.1269 29.4978C12.7247 27.4503 12.0225 25.0041 12.1251 22.5246C12.2277 20.045 13.1296 17.6652 14.6962 15.7405C16.2627 13.8158 18.4099 12.4495 20.817 11.8456C23.224 11.2418 25.7619 11.4328 28.0515 12.3901C30.341 13.3474 32.2595 15.0197 33.5204 17.1572L23.6152 23L33.0038 29.6411Z"
+            fill="currentColor"
+        />
+    </svg>
+)
+
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -108,6 +124,17 @@ const Navbar = () => {
 
                     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginLeft: '1rem', paddingLeft: '1rem', borderLeft: '1px solid rgba(255,255,255,0.1)' }}>
                         <a
+                            href="https://topmate.io/kunalsingh27/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ color: 'var(--text-secondary)', display: 'flex', alignItems: 'center' }}
+                            onMouseEnter={(e) => e.currentTarget.style.color = '#E44332'}
+                            onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
+                            aria-label="Book a call on Topmate"
+                        >
+                            <TopmateIcon size={20} />
+                        </a>
+                        <a
                             href="https://www.linkedin.com/in/kunal27/"
                             target="_blank"
                             rel="noopener noreferrer"
@@ -183,6 +210,15 @@ const Navbar = () => {
                             </Link>
                         ))}
                         <div style={{ display: 'flex', gap: '1.5rem', marginTop: '1rem' }}>
+                            <a
+                                href="https://topmate.io/kunalsingh27/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{ color: 'var(--text-secondary)', display: 'flex', alignItems: 'center' }}
+                                aria-label="Book a call on Topmate"
+                            >
+                                <TopmateIcon size={24} />
+                            </a>
                             <a
                                 href="https://www.linkedin.com/in/kunal27/"
                                 target="_blank"
