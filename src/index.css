@@ -642,6 +642,17 @@ button {
   --edge: rgba(148, 175, 255, 0.12);
   --edge-soft: rgba(148, 175, 255, 0.07);
   --signal: #34d399;
+
+  /* Tokenised so the light surface can restate them; the values below are
+     the ones this dark surface has always used. */
+  --nav-bg: rgba(10, 13, 19, 0.82);
+  --glow-1: rgba(129, 140, 248, 0.13);
+  --glow-2: rgba(192, 132, 252, 0.06);
+  --card-hover-edge: rgba(129, 140, 248, 0.4);
+  --card-shadow: 0 18px 40px -20px rgba(0, 0, 0, 0.8);
+  --signal-edge: rgba(52, 211, 153, 0.28);
+  --signal-wash: rgba(52, 211, 153, 0.08);
+  --head-fade: #93a2c4;
 }
 
 :root[data-surface="deep"] body {
@@ -662,8 +673,8 @@ button {
   z-index: 0;
   background: radial-gradient(
     ellipse at center,
-    rgba(129, 140, 248, 0.13) 0%,
-    rgba(192, 132, 252, 0.06) 38%,
+    var(--glow-1) 0%,
+    var(--glow-2) 38%,
     transparent 70%
   );
 }
@@ -673,7 +684,7 @@ button {
 :root[data-surface="deep"] footer { position: relative; z-index: 1; }
 
 :root[data-surface="deep"] nav {
-  background-color: rgba(10, 13, 19, 0.82) !important;
+  background-color: var(--nav-bg) !important;
   border-bottom: 1px solid var(--edge-soft) !important;
   backdrop-filter: blur(12px) !important;
 }
@@ -711,7 +722,7 @@ button {
   line-height: 1.0;
   margin: 0;
   text-wrap: balance;
-  background: linear-gradient(180deg, var(--text-primary) 40%, #93a2c4 100%);
+  background: linear-gradient(180deg, var(--text-primary) 40%, var(--head-fade) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -765,8 +776,8 @@ button {
 
 .post-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(129, 140, 248, 0.4);
-  box-shadow: 0 18px 40px -20px rgba(0, 0, 0, 0.8), 0 0 0 1px var(--accent-glow);
+  border-color: var(--card-hover-edge);
+  box-shadow: var(--card-shadow), 0 0 0 1px var(--accent-glow);
 }
 
 /* Covers are diagrams and logos, so contain them on a panel rather than
@@ -888,8 +899,8 @@ button {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--signal);
-  border: 1px solid rgba(52, 211, 153, 0.28);
-  background: rgba(52, 211, 153, 0.08);
+  border: 1px solid var(--signal-edge);
+  background: var(--signal-wash);
   border-radius: 999px;
   padding: 0.3rem 0.7rem;
   margin-bottom: 1rem;
@@ -1068,4 +1079,125 @@ button {
 @media (max-width: 640px) {
   .article-wide { padding: 0 1.25rem; }
   .article-main .prose > * { max-width: none; }
+}
+
+/* ============================================================
+   LIGHT READING SURFACE — Solarized Light
+   ------------------------------------------------------------
+   Opt-in via the navbar toggle on /blog routes; the choice is
+   remembered in localStorage by src/lib/blogSurface.ts.
+
+   Solarized rather than a plain white page: the base3/base2
+   cream is a terminal colourscheme, so it stays on-theme with
+   the rest of the site and is far easier on the eyes for long
+   articles than #fff. Every value below is an official
+   Solarized colour.
+   ============================================================ */
+
+:root[data-surface="light"] {
+  --bg-primary: #fdf6e3;    /* base3  */
+  --bg-secondary: #f5eeda;
+  --bg-card: #eee8d5;       /* base2  */
+  --bg-raise: #e8e1cb;
+
+  --text-primary: #073642;  /* base02 */
+  --text-secondary: #586e75;/* base01 */
+  --text-muted: #93a1a1;    /* base1  */
+
+  --accent-primary: #268bd2;  /* blue   */
+  --accent-secondary: #6c71c4;/* violet */
+  --accent-glow: rgba(38, 139, 210, 0.14);
+
+  --edge: rgba(88, 110, 117, 0.22);
+  --edge-soft: rgba(88, 110, 117, 0.12);
+  --signal: #6b7d00;        /* green, darkened for contrast on cream */
+
+  --nav-bg: rgba(253, 246, 227, 0.85);
+  --glow-1: rgba(38, 139, 210, 0.10);
+  --glow-2: rgba(181, 137, 0, 0.07);
+  --card-hover-edge: rgba(38, 139, 210, 0.45);
+  --card-shadow: 0 18px 40px -22px rgba(7, 54, 66, 0.35);
+  --signal-edge: rgba(107, 125, 0, 0.30);
+  --signal-wash: rgba(107, 125, 0, 0.10);
+  /* The dark surface fades the heading toward a pale blue. On cream that
+     would fade into the page, so light fades toward the accent instead -
+     same movement, still legible at the baseline. */
+  --head-fade: #268bd2;
+
+  color-scheme: light;
+}
+
+:root[data-surface="light"] body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* --- article typography -------------------------------------
+   .prose hardcodes dark-surface colours, so restate the ones
+   that would otherwise be light-on-light. */
+
+:root[data-surface="light"] .prose :not(pre) > code {
+  color: #7a4c00;
+  background-color: rgba(181, 137, 0, 0.13);
+  border-color: rgba(181, 137, 0, 0.28);
+}
+
+/* Code keeps a darker panel than the page. Solarized Light
+   normally sets code on base2, but against a base3 article that
+   is nearly invisible, so this uses the base02 ink as the panel
+   and base3 as the text - the same pairing inverted. */
+:root[data-surface="light"] .prose pre {
+  background-color: #073642;
+  border-color: rgba(7, 54, 66, 0.35);
+}
+
+:root[data-surface="light"] .prose pre code { color: #eee8d5; }
+
+:root[data-surface="light"] .prose img { border-color: var(--edge); }
+:root[data-surface="light"] .prose hr { border-top-color: var(--edge-soft); }
+
+:root[data-surface="light"] .prose th,
+:root[data-surface="light"] .prose td { border-color: var(--edge); }
+
+:root[data-surface="light"] .prose th {
+  background-color: rgba(88, 110, 117, 0.07);
+}
+
+:root[data-surface="light"] .prose blockquote {
+  border-left-color: var(--accent-primary);
+}
+
+/* --- navbar --------------------------------------------------
+   The navbar sets its scrolled background inline, so these need
+   !important to win, exactly as the deep surface does. */
+
+:root[data-surface="light"] nav {
+  background-color: var(--nav-bg) !important;
+  border-bottom: 1px solid var(--edge-soft) !important;
+  backdrop-filter: blur(12px) !important;
+}
+
+/* --- surface toggle ----------------------------------------- */
+
+.surface-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  border: 1px solid var(--edge, rgba(255, 255, 255, 0.12));
+  border-radius: 999px;
+  padding: 0.4rem;
+  line-height: 0;
+  transition: color 0.2s, border-color 0.2s, background-color 0.2s;
+}
+
+.surface-toggle:hover {
+  color: var(--accent-primary);
+  border-color: var(--accent-primary);
+  background-color: var(--accent-glow);
+}
+
+.surface-toggle:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
 }

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Github, Linkedin, Terminal } from 'lucide-react';
+import { Menu, X, Github, Linkedin, Terminal, Sun, Moon } from 'lucide-react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { useSurface, setSurface } from '../lib/blogSurface';
 
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -8,6 +9,11 @@ const Navbar = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
+
+    // Only the blog pages apply a surface, so the toggle is scoped to them.
+    const onBlog = location.pathname.startsWith('/blog');
+    const surface = useSurface();
+    const toggleSurface = () => setSurface(surface === 'light' ? 'deep' : 'light');
 
     useEffect(() => {
         const handleScroll = () => {
@@ -110,6 +116,17 @@ const Navbar = () => {
                         >
                             <Github size={20} />
                         </a>
+
+                        {onBlog && (
+                            <button
+                                onClick={toggleSurface}
+                                className="surface-toggle"
+                                aria-label={surface === 'light' ? 'Switch to dark reading theme' : 'Switch to light reading theme'}
+                                title={surface === 'light' ? 'Dark theme' : 'Light theme'}
+                            >
+                                {surface === 'light' ? <Moon size={17} /> : <Sun size={17} />}
+                            </button>
+                        )}
                     </div>
                 </div>
 
@@ -169,6 +186,16 @@ const Navbar = () => {
                             >
                                 <Github size={24} />
                             </a>
+
+                            {onBlog && (
+                                <button
+                                    onClick={toggleSurface}
+                                    className="surface-toggle"
+                                    aria-label={surface === 'light' ? 'Switch to dark reading theme' : 'Switch to light reading theme'}
+                                >
+                                    {surface === 'light' ? <Moon size={22} /> : <Sun size={22} />}
+                                </button>
+                            )}
                         </div>
                     </div>
                 )}

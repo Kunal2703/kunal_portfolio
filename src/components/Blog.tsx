@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { localPosts } from '../lib/posts';
 import { ArrowRight, Calendar, Clock } from 'lucide-react';
-import { useDeepSurface } from '../lib/useDeepSurface';
+import { useApplySurface } from '../lib/blogSurface';
 
 interface BlogPost {
     title: string;
@@ -28,7 +28,7 @@ const Blog = () => {
     const [loading, setLoading] = useState(LOCAL.length === 0);
     const [error, setError] = useState<string | null>(null);
 
-    useDeepSurface();
+    useApplySurface();
 
     useEffect(() => {
         window.scrollTo(0, 0);

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ArrowLeft, Calendar, Clock, AlertCircle } from 'lucide-react';
-import { useDeepSurface } from '../lib/useDeepSurface';
+import { useApplySurface } from '../lib/blogSurface';
 import { findLocalPost } from '../lib/posts';
 
 interface Article {
@@ -102,7 +102,7 @@ const BlogPost = () => {
         return () => { alive = false; };
     }, [slug]);
 
-    useDeepSurface();
+    useApplySurface();
 
     const bodyRef = useRef<HTMLDivElement>(null);
     const [activeId, setActiveId] = useState<string>('');
