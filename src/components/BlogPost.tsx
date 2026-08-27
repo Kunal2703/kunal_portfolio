@@ -2,6 +2,8 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ArrowLeft, Calendar, Clock, AlertCircle } from 'lucide-react';
 import { useApplySurface } from '../lib/blogSurface';
+import BlogBackdrop from './ui/BlogBackdrop';
+import { backdropForSlug } from '../lib/backdropKind';
 import { findLocalPost } from '../lib/posts';
 
 interface Article {
@@ -201,6 +203,7 @@ const BlogPost = () => {
 
     return (
         <article className="section" style={{ paddingTop: '150px', minHeight: '100vh' }}>
+            <BlogBackdrop kind={backdropForSlug(slug ?? '')} />
             <div className="article-wide">
 
                 <Link to="/blog" className="article-back">

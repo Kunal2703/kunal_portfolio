@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { localPosts } from '../lib/posts';
 import { ArrowRight, Calendar, Clock } from 'lucide-react';
 import { useApplySurface } from '../lib/blogSurface';
+import BlogBackdrop from './ui/BlogBackdrop';
 
 interface BlogPost {
     title: string;
@@ -105,6 +106,7 @@ const Blog = () => {
 
     return (
         <section className="section" style={{ paddingTop: '150px', minHeight: '100vh' }}>
+            <BlogBackdrop />
             <div className="blog-shell">
                 <header className="blog-hero">
                     <p className="blog-kicker">Writing</p>

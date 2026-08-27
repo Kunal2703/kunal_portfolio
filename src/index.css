@@ -679,9 +679,9 @@ button {
   );
 }
 
-:root[data-surface="deep"] nav,
-:root[data-surface="deep"] main,
-:root[data-surface="deep"] footer { position: relative; z-index: 1; }
+:root[data-surface] nav,
+:root[data-surface] main,
+:root[data-surface] footer { position: relative; z-index: 1; }
 
 :root[data-surface="deep"] nav {
   background-color: var(--nav-bg) !important;
@@ -1200,4 +1200,69 @@ button {
 .surface-toggle:focus-visible {
   outline: 2px solid var(--accent-primary);
   outline-offset: 2px;
+}
+
+/* ============================================================
+   BLOG WATERMARK
+   ------------------------------------------------------------
+   Fixed telemetry layer behind the blog pages (BlogBackdrop.tsx):
+   grid, streaming latency trace with an SLO line, and an
+   isometric throughput histogram.
+
+   The component references these tokens only, so one SVG serves
+   both surfaces. Values are deliberately close to the page
+   colour - this has to read as texture, never as content.
+   ============================================================ */
+
+.blog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  /* Clears the article column entirely and only lets the layer up at the
+     margins. Without this the pipeline and cluster variants read as content
+     sitting behind the text rather than as texture. */
+  -webkit-mask-image: radial-gradient(ellipse 62% 78% at 50% 42%, transparent 42%, #000 92%);
+  mask-image: radial-gradient(ellipse 62% 78% at 50% 42%, transparent 42%, #000 92%);
+  opacity: 0.75;
+}
+
+:root[data-surface="light"] .blog-backdrop {
+  /* Ink on cream carries further than light on black at equal alpha. */
+  opacity: 0.6;
+}
+
+.blog-backdrop svg { width: 100%; height: 100%; display: block; }
+
+:root[data-surface="deep"] {
+  --wm-grid: rgba(148, 175, 255, 0.055);
+  --wm-grid-strong: rgba(148, 175, 255, 0.13);
+  --wm-trace: rgba(129, 140, 248, 0.34);
+  --wm-fill-top: rgba(129, 140, 248, 0.10);
+  --wm-fill-bottom: rgba(129, 140, 248, 0);
+  --wm-slo: rgba(52, 211, 153, 0.24);
+  --wm-bar-face: rgba(129, 140, 248, 0.09);
+  --wm-bar-top: rgba(165, 180, 252, 0.17);
+  --wm-bar-side: rgba(99, 102, 241, 0.13);
+}
+
+:root[data-surface="light"] {
+  /* Solarized: base01 for structure, blue for the trace, green for the
+     threshold. Held lower than the dark surface because ink on cream reads
+     much stronger than light on black at the same alpha. */
+  --wm-grid: rgba(88, 110, 117, 0.075);
+  --wm-grid-strong: rgba(88, 110, 117, 0.16);
+  --wm-trace: rgba(38, 139, 210, 0.34);
+  --wm-fill-top: rgba(38, 139, 210, 0.11);
+  --wm-fill-bottom: rgba(38, 139, 210, 0);
+  --wm-slo: rgba(107, 125, 0, 0.30);
+  --wm-bar-face: rgba(38, 139, 210, 0.10);
+  --wm-bar-top: rgba(38, 139, 210, 0.19);
+  --wm-bar-side: rgba(88, 110, 117, 0.13);
+}
+
+@media (max-width: 720px) {
+  /* Narrow screens leave no margin for texture beside the text. */
+  .blog-backdrop { opacity: 0.55; }
 }
