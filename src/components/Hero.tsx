@@ -100,7 +100,7 @@ const Hero = () => {
               zIndex: 1
             }} />
             <img
-              src={`${import.meta.env.BASE_URL}profile.png`}
+              src={`${import.meta.env.BASE_URL}profile.jpg`}
               alt="Kunal Singh"
               style={{
                 position: 'relative',
