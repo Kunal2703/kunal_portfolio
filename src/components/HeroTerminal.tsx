@@ -29,6 +29,9 @@ const MESSAGES = [
     'Open to collaborating on scalable, reliable infrastructure. Say hello ↗',
 ];
 
+/** Reserves the tallest possible line so the frame never resizes mid-cycle. */
+const LONGEST = MESSAGES.reduce((a, b) => (b.length > a.length ? b : a));
+
 /**
  * A command "block" in the Warp sense: context line, the command, then its
  * output — grouped by a left rail. The rail is a CSS border rather than box
@@ -167,10 +170,20 @@ export default function HeroTerminal() {
                 <Block
                     live
                     command={
-                        <>
-                            <span style={{ color: C.text }}>{typed}</span>
-                            <span className="term-caret" />
-                        </>
+                        /* The typed line is the only thing in the terminal whose
+                           height changes over time, and on a narrow viewport the
+                           longest message wraps while the shortest does not - so
+                           the whole frame grew and shrank on every cycle. An
+                           invisible copy of the longest message holds the box
+                           open and the live text is laid over it, which keeps
+                           the height fixed at any width without hardcoding one. */
+                        <span className="term-typing">
+                            <span className="term-typing-sizer" aria-hidden="true">{LONGEST}</span>
+                            <span className="term-typing-text">
+                                <span style={{ color: C.text }}>{typed}</span>
+                                <span className="term-caret" />
+                            </span>
+                        </span>
                     }
                 />
             </div>
@@ -266,6 +279,19 @@ export default function HeroTerminal() {
                 .term-block:last-child { margin-bottom: 0; }
                 .term-block-live {
                     border-left-color: ${C.cyan};
+                }
+                .term-typing {
+                    position: relative;
+                    display: block;
+                    flex: 1;
+                    min-width: 0;
+                }
+                .term-typing-sizer { visibility: hidden; }
+                .term-typing-text {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
                 }
                 .term-caret {
                     display: inline-block;
