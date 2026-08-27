@@ -31,6 +31,14 @@ const Navbar = () => {
         { name: 'Contact', href: '/#contact', isHash: true },
     ];
 
+    const handleLogoClick = () => {
+        setIsMobileMenuOpen(false);
+        // Already on '/' means the router will not re-render, so nothing would
+        // move the viewport; and arriving from an article leaves the browser's
+        // restored scroll position. Reset it either way.
+        window.scrollTo({ top: 0, behavior: 'auto' });
+    };
+
     const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, link: { href: string; isHash: boolean }) => {
         if (!link.isHash) {
             setIsMobileMenuOpen(false);
@@ -73,10 +81,15 @@ const Navbar = () => {
             }}
         >
             <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '80px' }}>
-                <a href="#" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '1.25rem', fontWeight: 'bold' }}>
+                <Link
+                    to="/"
+                    onClick={handleLogoClick}
+                    style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '1.25rem', fontWeight: 'bold' }}
+                    aria-label="Kunal — back to home"
+                >
                     <Terminal size={24} color="var(--accent-primary)" />
                     <span style={{ fontFamily: 'var(--font-mono)' }}>kunal.folio</span>
-                </a>
+                </Link>
 
                 {/* Desktop Nav */}
                 <div className="desktop-nav" style={{ display: 'none', gap: '2rem', alignItems: 'center' }}>
