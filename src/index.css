@@ -26,6 +26,12 @@
 }
 
 :root {
+  /* Mobile menu chrome; restated per surface below. */
+  --menu-bg: #0a0a0a;
+  --menu-edge: rgba(255, 255, 255, 0.1);
+  --menu-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  --menu-text: #ffffff;
+
   --bg-primary: #0a0a0a;
   --bg-secondary: #171717;
   --bg-card: #1f1f1f;
@@ -646,6 +652,10 @@ button {
   /* Tokenised so the light surface can restate them; the values below are
      the ones this dark surface has always used. */
   --nav-bg: rgba(10, 13, 19, 0.82);
+  --menu-bg: #0a0d13;
+  --menu-edge: rgba(148, 175, 255, 0.14);
+  --menu-shadow: 0 10px 40px rgba(0, 0, 0, 0.55);
+  --menu-text: #e9eef7;
   --glow-1: rgba(129, 140, 248, 0.13);
   --glow-2: rgba(192, 132, 252, 0.06);
   --card-hover-edge: rgba(129, 140, 248, 0.4);
@@ -679,7 +689,12 @@ button {
   );
 }
 
-:root[data-surface] nav,
+/* Lift page content above the fixed glow layer behind it. `nav` is
+   deliberately NOT in this list: it is already position:fixed with z-50, and
+   this selector outranks those Tailwind classes - forcing it to
+   position:relative;z-index:1 unpinned the navbar and trapped the mobile menu
+   (z-index 40) inside a z-index-1 stacking context, so article content painted
+   straight over the open dropdown. */
 :root[data-surface] main,
 :root[data-surface] footer { position: relative; z-index: 1; }
 
@@ -1113,6 +1128,12 @@ button {
   --signal: #6b7d00;        /* green, darkened for contrast on cream */
 
   --nav-bg: rgba(253, 246, 227, 0.85);
+  /* The menu hardcoded a near-black panel, which on the cream surface left
+     dark text on a dark sheet over a light page. */
+  --menu-bg: #fdf6e3;
+  --menu-edge: rgba(88, 110, 117, 0.22);
+  --menu-shadow: 0 10px 40px rgba(7, 54, 66, 0.18);
+  --menu-text: #073642;
   --glow-1: rgba(38, 139, 210, 0.10);
   --glow-2: rgba(181, 137, 0, 0.07);
   --card-hover-edge: rgba(38, 139, 210, 0.45);

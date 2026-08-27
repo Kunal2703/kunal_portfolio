@@ -187,15 +187,15 @@ const Navbar = () => {
                             top: '80px',
                             left: 0,
                             width: '100%',
-                            backgroundColor: 'rgba(10, 10, 10, 0.98)',
+                            backgroundColor: 'var(--menu-bg)',
                             backdropFilter: 'blur(20px)',
                             WebkitBackdropFilter: 'blur(20px)',
                             padding: '2rem',
                             display: 'flex',
                             flexDirection: 'column',
                             gap: '1.5rem',
-                            borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-                            boxShadow: '0 10px 40px rgba(0, 0, 0, 0.5)',
+                            borderBottom: '1px solid var(--menu-edge)',
+                            boxShadow: 'var(--menu-shadow)',
                             zIndex: 40
                         }}
                     >
@@ -204,7 +204,7 @@ const Navbar = () => {
                                 key={link.name}
                                 to={link.href}
                                 onClick={(e: any) => handleNavClick(e, link)}
-                                style={{ color: 'var(--text-primary)', fontSize: '1.1rem', fontWeight: '500', cursor: 'pointer' }}
+                                style={{ color: 'var(--menu-text)', fontSize: '1.1rem', fontWeight: '500', cursor: 'pointer' }}
                             >
                                 {link.name}
                             </Link>
