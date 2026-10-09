@@ -12,8 +12,7 @@ export const profile = {
   location: 'Goa, IN',
   email: 'kunalsingh2703@gmail.com',
   experienceYears: '2.5+',
-  resumeUrl:
-    'https://drive.google.com/file/d/1sAkNyUDOOcFUMnoFmaxC4pz_aaIace2J/view?usp=sharing',
+  resumeUrl: `${import.meta.env.BASE_URL}resume.pdf`,
   github: 'https://github.com/Kunal2703',
   githubUser: 'Kunal2703',
   linkedin: 'https://www.linkedin.com/in/kunal27/',
