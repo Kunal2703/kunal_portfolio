@@ -244,7 +244,6 @@ export const skillGroups: SkillGroup[] = [
       { name: 'GKE', icon: 'gcp' },
       { name: 'Docker', icon: 'docker' },
       { name: 'Helm', icon: 'helm' },
-      { name: 'Istio', icon: 'istio' },
     ],
   },
   {
@@ -289,7 +288,6 @@ export const skillGroups: SkillGroup[] = [
       { name: 'PagerDuty', icon: 'pagerduty' },
       { name: 'Slack alerting', icon: 'slack' },
       { name: 'Runbooks', icon: 'runbook' },
-      { name: 'Postmortems', icon: 'postmortem' },
     ],
   },
   {
