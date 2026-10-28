@@ -79,7 +79,7 @@ const Contact = () => {
                                 </div>
                                 <div>
                                     <div style={{ fontWeight: 'bold', marginBottom: '0.25rem' }}>Location</div>
-                                    <div style={{ color: 'var(--text-secondary)' }}>Goa, IN / Remote</div>
+                                    <div style={{ color: 'var(--text-secondary)' }}>Bengaluru, IN / Remote</div>
                                 </div>
                             </div>
                         </div>

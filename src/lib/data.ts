@@ -9,7 +9,7 @@ export const profile = {
   tagline: 'I build infrastructure that survives the traffic spike.',
   blurb:
     'DevOps & SRE Engineer with 2.5+ years across AWS and GCP. I turn greenfield requirements into Terraform, multi-tenant Kubernetes and observability that other engineers can operate without me.',
-  location: 'Goa, IN',
+  location: 'Bengaluru, IN',
   email: 'kunalsingh2703@gmail.com',
   experienceYears: '2.5+',
   resumeUrl: `${import.meta.env.BASE_URL}resume.pdf`,
