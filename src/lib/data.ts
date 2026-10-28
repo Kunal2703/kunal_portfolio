@@ -89,7 +89,7 @@ export const experience: Experience[] = [
     role: 'DevOps Engineer',
     period: 'Jun 2026 — Present',
     start: '2026',
-    location: 'Goa, IN',
+    location: 'Bengaluru, IN',
     current: true,
     summary:
       'Owning the platform for an AI-native e-commerce product and the client migrations that feed it — AWS provisioning, multi-tenant Kubernetes, zero-downtime database cutovers, and the observability the team runs on.',
